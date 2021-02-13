@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
+using Employee_CRUD.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Employee_CRUD.Models;
 
 namespace Employee_CRUD.Controllers
 {
@@ -32,6 +28,17 @@ namespace Employee_CRUD.Controllers
         public IActionResult Error()
         {
             return View( new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier } );
+        }
+
+        public IActionResult Login(UserViewModel userViewModel)
+        {
+
+            return View(userViewModel);
+        }
+
+        public IActionResult Register(UserViewModel userViewModel)
+        {
+            return View(userViewModel);
         }
     }
 }
