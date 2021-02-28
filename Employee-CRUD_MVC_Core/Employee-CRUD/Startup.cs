@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Employee_CRUD.Data;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +27,7 @@ namespace Employee_CRUD
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews( );
+            //services.AddDbContextPool<DataContext>().
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +54,7 @@ namespace Employee_CRUD
              {
                  endpoints.MapControllerRoute(
                      name: "default",
-                     pattern: "{controller=Home}/{action=Index}/{id?}" );
+                     pattern: "{controller=Dashboard}/{action=Index}/{id?}" );
              } );
         }
     }

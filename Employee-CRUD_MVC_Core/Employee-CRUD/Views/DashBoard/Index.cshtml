@@ -1,0 +1,215 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-db">
+    <h1>Dashboard</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="ds01 text-center">
+                <p>20</p>
+                <h4>Numbers of Notes in Review for Publish</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ds01 text-center">
+                <p>103</p>
+                <h4>Numbers of New Notes Downloaded<br>(Last/days)</h4>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="ds01 text-center">
+                <p>223</p>
+                <h4>Numbers of New Registrations(Last 7 days)</h4>
+            </div>
+        </div>
+    </div>
+
+    <!--Published Notes-->
+    <div class="progress-nots">
+        <div class="row ds02">
+            <div class="col-md-6">
+                <h3>Published Notes</h3>
+            </div>
+            <div class="col-md-3">
+                <input type="text" class="form-control" id="search-db" placeholder="&#xf002;  Search">
+
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="form-control" id="search-db01">SEARCH</button>
+            </div>
+
+            <div class="col-md-2">
+                <select id="month" class="form-control">
+                    <option value="" disabled selected hidden>Select month</option>
+                    <option value="">.</option>
+                    <option value="">..</option>
+                    <option value="">...</option>
+                </select>
+            </div>
+        </div>
+
+        <table class="table border">
+            <thead>
+                <tr class="table11" style="height: 75px;">
+                    <th scope="col" style="vertical-align: middle;">SR NO.</th>
+                    <th scope="col" style="vertical-align: middle;text-align: left;">TITLE</th>
+                    <th scope="col" style="vertical-align: middle;text-align: left;">CATEGORY</th>
+                    <th scope="col" style="vertical-align: middle;">ATTECHMENT SIZE</th>
+                    <th scope="col" style="vertical-align: middle;">SELL TYPE</th>
+                    <th scope="col" style="vertical-align: middle;">PRICE</th>
+                    <th scope="col" style="vertical-align: middle;text-align: left;">PUBLISHER</th>
+                    <th scope="col" style="vertical-align: middle;">PUBLISHED DATE</th>
+                    <th scope="col" style="vertical-align: middle;">NUMBER OF<br> DOWNLOADS</th>
+                    <th scope="col" style="vertical-align: middle;"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table2">
+                    <td style="vertical-align: middle;">1</td>
+                    <td style="color: #6255a5; vertical-align: middle;text-align: left;">Data Science</td>
+                    <td style="vertical-align: middle;text-align: left;">Science</td>
+                    <td style="vertical-align: middle;">10KB</td>
+                    <td style="vertical-align: middle;">Free</td>
+                    <td style="vertical-align: middle;">&#36;0</td>
+                    <td style="vertical-align: middle;text-align: left;">Pritesh Panchal</td>
+                    <td style="vertical-align: middle;">09-10-2020,10:10</td>
+                    <td style="vertical-align: middle; color: #6255a5;">10</td>
+                    <td style="vertical-align: middle;">
+                        <div class="dropdown1">
+                            <img src="images/My Download/dots.png" class="dots">
+                            <div class="dropdown-content1">
+                                <a href="#">Download Notes</a>
+                                <a data-toggle="modal" data-target="#exampleModal">View More Details</a>
+                                <a href="#">Unpublish</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr class="table2">
+                    <td style="vertical-align: middle;">2</td>
+                    <td style="color: #6255a5; vertical-align: middle;text-align: left;">Accounts</td>
+                    <td style="vertical-align: middle;text-align: left;">Commerce</td>
+                    <td style="vertical-align: middle;">23MB</td>
+                    <td style="vertical-align: middle;">Paid</td>
+                    <td style="vertical-align: middle;">&#36;22</td>
+                    <td style="vertical-align: middle;text-align: left;">Rahil Shah</td>
+                    <td style="vertical-align: middle;">10-10-2020,12:30</td>
+                    <td style="vertical-align: middle; color: #6255a5;">21</td>
+                    <td style="vertical-align: middle;">
+                        <div class="dropdown1">
+                            <img src="images/My Download/dots.png" class="dots">
+                            <div class="dropdown-content1">
+                                <a href="#">Download Notes</a>
+                                <a data-toggle="modal" data-target="#exampleModal">View More Details</a>
+                                <a href="#">Unpublish</a>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                <tr class="table2">
+                    <td style="vertical-align: middle;">3</td>
+                    <td style="color: #6255a5; vertical-align: middle;text-align: left;">Social Students</td>
+                    <td style="vertical-align: middle;text-align: left;">Social</td>
+                    <td style="vertical-align: middle;">3MB</td>
+                    <td style="vertical-align: middle;">Paid</td>
+                    <td style="vertical-align: middle;">&#36;56</td>
+                    <td style="vertical-align: middle;text-align: left;">Anish Patel</td>
+                    <td style="vertical-align: middle;">11-10-2020,01:00</td>
+                    <td style="vertical-align: middle; color: #6255a5;">13</td>
+                    <td style="vertical-align: middle;">
+                        <div class="dropdown1">
+                            <img src="images/My Download/dots.png" class="dots">
+                            <div class="dropdown-content1">
+                                <a href="#">Download Notes</a>
+                                <a data-toggle="modal" data-target="#exampleModal">View More Details</a>
+                                <a href="#">Unpublish</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="table2">
+                    <td style="vertical-align: middle;">4</td>
+                    <td style="color: #6255a5; vertical-align: middle;text-align: left;">AI</td>
+                    <td style="vertical-align: middle;text-align: left;">IT</td>
+                    <td style="vertical-align: middle;">1MB</td>
+                    <td style="vertical-align: middle;">Free</td>
+                    <td style="vertical-align: middle;">&#36;0</td>
+                    <td style="vertical-align: middle;text-align: left;">Vijay Vaishnav</td>
+                    <td style="vertical-align: middle;">12-10-2020,10:10</td>
+                    <td style="color: #6255a5; vertical-align: middle;">34</td>
+                    <td style="vertical-align: middle;">
+                        <div class="dropdown1">
+                            <img src="images/My Download/dots.png" class="dots">
+                            <div class="dropdown-content1">
+                                <a href="#">Download Notes</a>
+                                <a data-toggle="modal" data-target="#exampleModal">View More Details</a>
+                                <a href="#">Unpublish</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="table2">
+                    <td style="vertical-align: middle;">5</td>
+                    <td style="color: #6255a5; vertical-align: middle;text-align: left;">Lorem ipsum </td>
+                    <td style="vertical-align: middle;text-align: left;">Lorem</td>
+                    <td style="vertical-align: middle;">105KB</td>
+                    <td style="vertical-align: middle;">Paid</td>
+                    <td style="vertical-align: middle;">&#36;90</td>
+                    <td style="vertical-align: middle;text-align: left;">Mehul Patel</td>
+                    <td style="vertical-align: middle;">13-10-2020,11:25</td>
+                    <td style="color: #6255a5; vertical-align: middle;">9</td>
+                    <td style="vertical-align: middle;">
+                        <div class="dropdown1">
+                            <img src="images/My Download/dots.png" class="dots">
+                            <div class="dropdown-content1">
+                                <a href="#">Download Notes</a>
+                                <a data-toggle="modal" data-target="#exampleModal">View More Details</a>
+                                <a href="#">Unpublish</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+
+</div>
+
+<!--Pagination-->
+<div class="text-center">
+    <ul class="pagination">
+        <li class="page-item">
+            <a class="page-link langle" href="#" aria-label="Previous">
+                <span aria-hidden="true" class="fa fa-angle-left"></span>
+            </a>
+        </li>
+        <li class="page-item"><a class="page-link page-item" href="#">1</a></li>
+        <li class="page-item"><a class="page-link page-item" href="#">2</a></li>
+        <li class="page-item"><a class="page-link page-item" href="#">3</a></li>
+        <li class="page-item"><a class="page-link page-item" href="#">4</a></li>
+        <li class="page-item"><a class="page-link page-item" href="#">5</a></li>
+
+        <li class="page-item">
+            <a class="page-link rangle" href="#" aria-label="Next">
+                <span aria-hidden="true" class="fa fa-angle-right"></span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+
+<!--JQuery-->
+<!--<script src="js/jquery-min.js"></script>-->
+<!--Bootstrap JS-->
+<!--<script src="js/bootstrap/bootstrap.min.js"></script>-->
+<!--Custom JS-->
+<!--<script src="js/script.js"></script>-->

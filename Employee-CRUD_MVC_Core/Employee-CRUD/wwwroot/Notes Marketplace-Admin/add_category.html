@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <!-- important meta tags-->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,17 +9,18 @@
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <!--Bootstrap CSS-->
-    <link href="~/Notes Marketplace-Admin/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet">
     <!--Fontawesome-->
-    <link href="~/Notes Marketplace-Admin/css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/font-awesome/css/font-awesome.min.css">
     <!--Custom CSS-->
-    <link href="~/Notes Marketplace-Admin/css/style.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet">
     <!--Responsive CSS-->
-    <link href="~/Notes Marketplace-Admin/css/responsive.css" rel="stylesheet" />
+    <link href="css/responsive.css" rel="stylesheet">
     <title>Notes Marketplace</title>
     <!--Favicon-->
     <link rel="shortcut icon" href="images/home/favicon.ico">
 </head>
+
 <body>
     <!-- Navigation-->
     <!--Dashboard Page-->
@@ -32,9 +34,10 @@
                         <!--Mobile Menu Open Button-->
                         <span id="mobile-nav-open-btn">&#9776;</span>
 
+
                         <!--Logo-->
                         <a class="navbar-brand smooth-scroll" href="#">
-                            <img src="~/Notes Marketplace-Admin/images/pre-login/logo-dark.png" alt="logo">
+                            <img src="images/pre-login/logo-dark.png" alt="logo">
                         </a>
                     </div>
 
@@ -50,11 +53,12 @@
                                     <span>Notes</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/notes_under_reb.html">Notes Under Review</a>
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/published_notes_reports.html">Published Notes</a>
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin//download_notes.html">Downloaded Notes</a>
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin//rejected_notes.html">Rejected Notes</a>
+                                    <a class="dropdown-item" href="#">Notes Under Review</a>
+                                    <a class="dropdown-item" href="#">Published Notes</a>
+                                    <a class="dropdown-item" href="#">Downloaded Notes</a>
+                                    <a class="dropdown-item" href="#">Rejected Notes</a>
                                 </div>
+
                             </li>
                             <li class="nav-item"><a href="#" class="nav-link">Members</a></li>
                             <li class="nav-item dropdown">
@@ -64,15 +68,16 @@
                                     <span>Reported</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/spam_report.html">Spam Reports</a>
+                                    <a class="dropdown-item" href="#">Spam Reports</a>
                                 </div>
 
                             </li>
                             <li class="nav-item"><a href="#" class="nav-link">Settings</a></li>
                             <li class="nav-item dropdown">
 
+
                                 <a href="#" class=" dropdown-toggle nav-link" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img src="~/Notes Marketplace-Admin/images/assets/reviewer-1.png" alt="user" class="img-circle user-menu">
+                                    <img src="images/assets/reviewer-1.png" alt="user" class="img-circle user-menu">
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
                                     <a class="dropdown-item" href="#">Update Profile</a><br>
@@ -144,24 +149,42 @@
         </nav>
     </header>
 
-    @RenderBody()
+    <div class="container-db">
+        <h1>Add Category</h1>
+        <div class="row mp01">
+            <div class="col-md-6 form-group">
+                <label for="exampleInputtitle">First Name<span class="required">*</span></label>
+                <input type="text" class="form-control mp02" placeholder="Enter your first name" required>
 
+                <label for="text-area"><span class="review-label">Description*</span></label>
+                <textarea class="form-control md03" placeholder="Enter your description" rows="5"></textarea>
+
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary btn-md btn-submit">SUBMIT</button>
+    </div>
     <!--Footer-->
     <div class="container-fluid main-footer">
         <div class="row">
             <div class="col-md-6 version">
-                <p>Version:1.0</p>
+                <p>Version:1.1.24</p>
             </div>
             <div class="col-md-6 text-right">
-                <p>Copyright &copy; Dzone All rights reserved.</p>
+                <p>Copyright &copy; Tatvasoft All rights reserved.</p>
             </div>
         </div>
     </div>
 
-    <!--SCRIPT-->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @RenderSection("Scripts", required: false)
+
+
+
+
+    <!--JQuery-->
+    <script src="js/jquery-min.js"></script>
+    <!--Bootstrap JS-->
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <!--Custom JS-->
+    <script src="js/script.js"></script>
 </body>
+
 </html>
