@@ -33,7 +33,7 @@
                         <span id="mobile-nav-open-btn">&#9776;</span>
 
                         <!--Logo-->
-                        <a class="navbar-brand smooth-scroll" href="#">
+                        <a class="navbar-brand smooth-scroll" asp-controller="DashBoard" asp-action="Index">
                             <img src="~/Notes Marketplace-Admin/images/pre-login/logo-dark.png" alt="logo">
                         </a>
                     </div>
@@ -41,7 +41,7 @@
                     <!--Main Menu-->
                     <div class="collapse navbar-collapse">
                         <ul class="nav navbar-nav pull-right">
-                            <li class="nav-item"><a href="#" class="nav-link">Dashboard</a></li>
+                            <li class="nav-item"><a asp-controller="DashBoard" asp-action="Index" class="nav-link">Dashboard</a></li>
 
                             <li class="nav-item dropdown">
 
@@ -50,10 +50,10 @@
                                     <span>Notes</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenu">
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/notes_under_reb.html">Notes Under Review</a>
+                                    <a class="dropdown-item" asp-controller="Notes" asp-action="Index">Notes Under Review</a>
                                     <a class="dropdown-item" href="~/Notes Marketplace-Admin/published_notes_reports.html">Published Notes</a>
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin//download_notes.html">Downloaded Notes</a>
-                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin//rejected_notes.html">Rejected Notes</a>
+                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/download_notes.html">Downloaded Notes</a>
+                                    <a class="dropdown-item" href="~/Notes Marketplace-Admin/rejected_notes.html">Rejected Notes</a>
                                 </div>
                             </li>
                             <li class="nav-item"><a href="#" class="nav-link">Members</a></li>
