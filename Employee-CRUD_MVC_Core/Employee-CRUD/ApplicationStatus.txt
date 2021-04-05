@@ -1,1 +1,5 @@
 ﻿CRUD using STORE PROCEDURES
+
+Tools and Technologies required:
+1> EF with SP
+2> CODE first approch SP

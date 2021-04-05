@@ -28,7 +28,7 @@ namespace Employee_CRUD
             //});
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("GlobalMssqlConnection"));
             });
         }
 
@@ -41,7 +41,7 @@ namespace Employee_CRUD
             }
             else
             {
-                app.UseExceptionHandler( "/Home/Error" );
+                app.UseExceptionHandler("/Employee/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts( );
             }
@@ -56,7 +56,7 @@ namespace Employee_CRUD
              {
                  endpoints.MapControllerRoute(
                      name: "default",
-                     pattern: "{controller=Home}/{action=Home}/{id?}" );
+                     pattern: "{controller=Employee}/{action=Index}/{id?}");
              } );
         }
     }
