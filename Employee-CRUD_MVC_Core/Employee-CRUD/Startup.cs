@@ -22,9 +22,13 @@ namespace Employee_CRUD
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews( );
+            //services.AddDbContext<DataContext>(options =>
+            //{
+            //    options.UseNpgsql(Configuration.GetConnectionString("NpgsqlConnection"));
+            //});
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("NpgsqlConnection"));
+                options.UseSqlServer(Configuration.GetConnectionString("MssqlConnection"));
             });
         }
 
