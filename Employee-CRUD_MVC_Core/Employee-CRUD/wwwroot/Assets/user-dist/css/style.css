@@ -1,0 +1,40 @@
+
+.btn-outline-primary{
+    color: #F99D1C !important ;
+    border-color: #F99D1C !important ;
+}
+
+.btn-outline-primary:hover{
+    background-color: #F99D1C !important ;
+    border-color: #F99D1C !important ;
+     color: #383838 !important ;
+}
+.bg-primary {
+    background-color: #ffffff !important;
+    color:#F99D1C !important;
+
+}
+.navbar{
+	background-color: #fff !important;
+
+}
+.btn-secondary{
+	background-color: #F99D1C !important;
+}
+.footer-classic{
+	background-color: #f7f7f9 !important;
+}
+.functionality{
+	margin-top: 10%;
+}
+
+@media (max-width: 576px) 
+ { 
+ 	body{
+ 		margin: 0;
+ 		padding: 0;
+ 	}
+ 	.functionality{
+	margin-top: 34%;
+} }
+
