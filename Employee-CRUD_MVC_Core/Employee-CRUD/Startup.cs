@@ -1,13 +1,11 @@
+using Employee_CRUD.Bll;
 using Employee_CRUD.Data.Context;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using SixLabors.ImageSharp;
 
 namespace Employee_CRUD
 {
@@ -32,6 +30,11 @@ namespace Employee_CRUD
             {
                 options.UseSqlServer(Configuration.GetConnectionString("GlobalMssqlConnection"));
             });
+
+            //services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<QuotesBll>>());
+
+            //Dependency resolver
+            services.AddTransient<IQuotesBll, QuotesBll>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +61,7 @@ namespace Employee_CRUD
              {
                  endpoints.MapControllerRoute(
                      name: "default",
-                     pattern: "{controller=Employee}/{action=Index}/{id?}");
+                     pattern: "{controller=Home}/{action=Index}/{id?}");
              } );
         }
     }

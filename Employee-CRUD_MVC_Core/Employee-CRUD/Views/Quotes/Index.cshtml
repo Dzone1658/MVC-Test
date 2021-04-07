@@ -1,5 +1,5 @@
 ﻿
-@model Employee_CRUD.Models.SampleImageModel
+@model Employee_CRUD.Models.ManagePostModel
 
 
 @using (Html.BeginForm("ManageQuotes", "Quotes", FormMethod.Post, new { @id = "ManageQuotes", @enctype = "multipart/form-data" }))
@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="control-label">Text Position</label>
             @Html.DropDownListFor(m => m.Position, new List<SelectListItem>
-        {
+{
                   new SelectListItem { Text = "Top Left", Value = "Top Left"},
                   new SelectListItem { Text = "Top Center", Value = "Top Center"},
                   new SelectListItem { Text = "Top Right", Value = "Top Right"},
@@ -36,7 +36,20 @@
 
         </div>
     </div>
-    
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="control-label">Category</label>
+            @Html.TextBoxFor(m => m.PostCategory, new { @class = "form-control form-control-sm", @required = "Required" })
+            @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="form-group">
+            <label class="control-label">Tags (Comma seprated)</label>
+            @Html.TextBoxFor(m => m.Tags, new { @class = "form-control form-control-sm", @required = "Required" })
+            @Html.ValidationMessageFor(m => m.Tags, "", new { @class = "text-danger col-form-label" })
+        </div>
+    </div>
     <div class="col-sm-2">
         <div class="form-group">
             <label class="control-label">Text Size</label>

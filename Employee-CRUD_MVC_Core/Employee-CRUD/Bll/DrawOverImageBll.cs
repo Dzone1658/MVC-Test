@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 
@@ -14,6 +15,23 @@ namespace Employee_CRUD.Bll
             FileInfo fileInfo = new FileInfo(ImageName);
             int imageHeight = bitmap.Height;
             int imageWidth = bitmap.Width;
+
+            //change Size Coording to aspect ratio
+            if(imageWidth == imageHeight)
+            {
+                bitmap = ResizeImage(bitmap, 1080,1080);
+            }
+            else if(imageWidth > imageHeight)
+            {
+                bitmap = ResizeImage(bitmap, 1080,720);
+            }
+            else
+            {
+                bitmap = ResizeImage(bitmap,720,1080);
+            }
+
+            imageHeight = bitmap.Height;
+            imageWidth = bitmap.Width;
 
             Graphics graphicsImage = Graphics.FromImage(bitmap);
             StringFormat stringformat = new StringFormat();
@@ -91,5 +109,32 @@ namespace Employee_CRUD.Bll
             bitmap.Save(@".\wwwroot\Assets\Image\QuotesData\" + fileName, ImageFormat.Jpeg);
             return fileName;
         }
+
+
+        public static Bitmap ResizeImage(Image image, int width, int height)
+        {
+            var destRect = new Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
     }
 }

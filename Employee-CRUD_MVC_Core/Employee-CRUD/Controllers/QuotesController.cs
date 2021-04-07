@@ -13,10 +13,12 @@ namespace Employee_CRUD.Controllers
     public class QuotesController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IQuotesBll _quotesBll;
 
-        public QuotesController(IHostingEnvironment hostingEnvironment)
+        public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll)
         {
             _hostingEnvironment = hostingEnvironment;
+            _quotesBll = quotesBll;
         }
 
         public IActionResult Index()
@@ -25,18 +27,26 @@ namespace Employee_CRUD.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ManageQuotes(SampleImageModel sampleImageModel)
+        public async Task<IActionResult> ManageQuotes(ManagePostModel sampleImageModel)
         {
             var path = Path.Combine(_hostingEnvironment.WebRootPath, @"Assets/Image/UserUploadedImages/");
             string fileName = DateTime.Now.Month.ToString() + DateTime.Now.Year.ToString() + DateTime.Now.Hour.ToString() + DateTime.Now.Minute.ToString() + DateTime.Now.Second.ToString() + DateTime.Now.Millisecond.ToString() + Path.GetExtension(sampleImageModel.ImageContent.FileName);
             var FileSaveLocation = path + fileName;
-            using (Stream fileStream = new FileStream(FileSaveLocation, FileMode.Create))
+            if (sampleImageModel.ImageContent != null)
             {
-                await sampleImageModel.ImageContent.CopyToAsync(fileStream);
+                using (Stream fileStream = new FileStream(FileSaveLocation, FileMode.Create))
+                {
+                    await sampleImageModel.ImageContent.CopyToAsync(fileStream);
+                }
             }
-
-            var ImageName = DrawOverImageBll.DrawTextOverImage(sampleImageModel.QuoteText, FileSaveLocation, sampleImageModel.Position, sampleImageModel.FontColor, sampleImageModel.FontSize);
-            string strPhoto = (@"Assets/Image/QuotesData/" + ImageName);
+            else
+            {
+                //Select existing uploaded image
+            }
+            sampleImageModel.ImageName = DrawOverImageBll.DrawTextOverImage(sampleImageModel.QuoteText, FileSaveLocation, sampleImageModel.Position, sampleImageModel.FontColor, sampleImageModel.FontSize);
+            var result =_quotesBll.Upsert(sampleImageModel);
+            //Return Json with msg and redirect to same page with newly added post.
+            string strPhoto = (@"Assets/Image/QuotesData/" + sampleImageModel.ImageName);
             return File(strPhoto, "image/png");
         }
     }
