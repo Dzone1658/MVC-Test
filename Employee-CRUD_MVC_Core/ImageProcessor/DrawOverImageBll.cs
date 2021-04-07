@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace ImageProcessor
 {
-    public class DrawOverImage
+    public class DrawOverImageBll
     {
-        public static string DrawTextOverImage(string QuoteText, string ImageName, string QuotesPosition, string ColorCode,int FontSize)
+        public static string DrawTextOverImage(string QuoteText, string ImageName, string QuotesPosition, string ColorCode, int FontSize)
         {
-            Image bitmap = Bitmap.FromFile(ImageName);    
+            Image bitmap = Bitmap.FromFile(ImageName);
 
             FileInfo fileInfo = new FileInfo(ImageName);
             int imageHeight = bitmap.Height;
@@ -55,7 +55,6 @@ namespace ImageProcessor
             {
                 position = new RectangleF(imageWidth * 25 / 100, 10, imageWidth - (imageWidth * 50 / 100), imageHeight - (imageWidth * 50 / 100));
                 stringformat.LineAlignment = StringAlignment.Near;
-
             }
             else if (QuotesPosition == "Top Right")
             {
@@ -66,7 +65,6 @@ namespace ImageProcessor
             else if (QuotesPosition == "Center")
             {
                 position = new RectangleF(imageWidth * 25 / 100, imageHeight * 25 / 100, imageWidth - (imageWidth * 50 / 100), imageHeight - (imageWidth * 50 / 100));
-
             }
             else if (QuotesPosition == "Bottom Left")
             {
@@ -78,7 +76,6 @@ namespace ImageProcessor
             {
                 position = new RectangleF(imageWidth * 25 / 100, imageHeight * 35 / 100, imageWidth - (imageWidth * 50 / 100), imageHeight - (imageWidth * 50 / 100));
                 stringformat.LineAlignment = StringAlignment.Far;
-
             }
             else if (QuotesPosition == "Bottom Right")
             {

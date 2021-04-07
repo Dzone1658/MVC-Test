@@ -27,10 +27,10 @@
     <PackageReference Include="Npgsql" Version="5.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Bll\" />
     <Folder Include="Data\Entities\" />
     <Folder Include="wwwroot\Assets\Image\UserUploadedImages\" />
     <Folder Include="wwwroot\css\" />
@@ -43,25 +43,6 @@
     <Folder Include="wwwroot\lib\jquery\" />
     <Folder Include="wwwroot\lib\jquery\dist\" />
     <Folder Include="wwwroot\Assets\Image\QuotesData\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\ImageProcessor\ImageProcessor.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="BoilerPlate.API">
-      <HintPath>F:\Zignuts\dot-net-core-boilerplate\BolierPlate_UserManagement\BolierPlate\bin\Debug\netcoreapp3.1\BoilerPlate.API.dll</HintPath>
-    </Reference>
-    <Reference Include="BoilerPlate.Bll">
-      <HintPath>F:\Zignuts\dot-net-core-boilerplate\BolierPlate_UserManagement\BoilerPlate.Bll\bin\Debug\netcoreapp3.1\BoilerPlate.Bll.dll</HintPath>
-    </Reference>
-    <Reference Include="BoilerPlate.Infra.Ioc">
-      <HintPath>F:\Zignuts\dot-net-core-boilerplate\BolierPlate_UserManagement\BoilerPlate.Infra.Ioc\bin\Debug\netcoreapp3.1\BoilerPlate.Infra.Ioc.dll</HintPath>
-    </Reference>
-    <Reference Include="BoilerPlate.Model">
-      <HintPath>F:\Zignuts\dot-net-core-boilerplate\BolierPlate_UserManagement\BoilerPlate.Bll\bin\Debug\netcoreapp3.1\BoilerPlate.Model.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 
