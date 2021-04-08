@@ -1,7 +1,7 @@
 ﻿using Employee_CRUD.Data.Context;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
-
+using BolierPlate;
 using System;
 using System.Collections.Generic;
 using System.Linq;

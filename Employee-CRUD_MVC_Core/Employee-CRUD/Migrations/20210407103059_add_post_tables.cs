@@ -68,6 +68,8 @@ namespace Employee_CRUD.Migrations
                 {
                     table.PrimaryKey("PK_TBL_Tags", x => x.TagID);
                 });
+
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

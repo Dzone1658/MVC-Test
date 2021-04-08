@@ -13,24 +13,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="Npgsql" Version="5.0.3" />
+    <PackageReference Include="Npgsql" Version="5.0.4" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.2" />
     <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ThirdPartyDlls\" />
     <Folder Include="wwwroot\Assets\Image\UserUploadedImages\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
@@ -42,6 +43,18 @@
     <Folder Include="wwwroot\lib\jquery\" />
     <Folder Include="wwwroot\lib\jquery\dist\" />
     <Folder Include="wwwroot\Assets\Image\QuotesData\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BoilerPlate.API">
+      <HintPath>ThirdPartyDlls\BoilerPlate.API.dll</HintPath>
+    </Reference>
+    <Reference Include="BoilerPlate.Data">
+      <HintPath>ThirdPartyDlls\BoilerPlate.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="BoilerPlate.Model">
+      <HintPath>ThirdPartyDlls\BoilerPlate.Model.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 
