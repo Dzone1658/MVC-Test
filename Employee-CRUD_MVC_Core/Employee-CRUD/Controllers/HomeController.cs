@@ -23,5 +23,12 @@ namespace Employee_CRUD.Controllers
         {
             return View(_quotesBll.GetAllPosts().Result);
         }
+
+        [HttpGet]
+        public JsonResult DeletePostByPostID(int PostId)
+        {
+            var result = _quotesBll.DeletePostByPostID(PostId);
+            return Json(new { result });
+        }
     }
 }

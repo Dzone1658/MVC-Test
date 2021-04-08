@@ -348,3 +348,4 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+/Employee-CRUD_MVC_Core/Employee-CRUD/wwwroot/Assets/Image

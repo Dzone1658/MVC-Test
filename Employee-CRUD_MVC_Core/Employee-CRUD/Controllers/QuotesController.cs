@@ -26,6 +26,11 @@ namespace Employee_CRUD.Controllers
             return View();
         }
 
+        public IActionResult ManageQuotes()
+        {
+            return View();
+        }
+
         [HttpPost]
         public async Task<IActionResult> ManageQuotes(ManagePostModel sampleImageModel)
         {
@@ -44,10 +49,11 @@ namespace Employee_CRUD.Controllers
                 //Select existing uploaded image
             }
             sampleImageModel.ImageName = DrawOverImageBll.DrawTextOverImage(sampleImageModel.QuoteText, FileSaveLocation, sampleImageModel.Position, sampleImageModel.FontColor, sampleImageModel.FontSize);
-            var result =_quotesBll.Upsert(sampleImageModel);
+            _quotesBll.Upsert(sampleImageModel);
+            //var result = _quotesBll.Upsert(sampleImageModel);
             //Return Json with msg and redirect to same page with newly added post.
-            string strPhoto = (@"Assets/Image/QuotesData/" + sampleImageModel.ImageName);
-            return File(strPhoto, "image/png");
+            //string strPhoto = (@"Assets/Image/QuotesData/" + sampleImageModel.ImageName);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

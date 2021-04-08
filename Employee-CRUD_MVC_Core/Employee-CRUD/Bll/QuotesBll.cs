@@ -6,12 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace Employee_CRUD.Bll
 {
     public interface IQuotesBll : IBaseRepository<TBL_PublicPost>
     {
-        void DeletePostById(int id);
+        //bool DeletePostById(int id);
+        ResultBase<List<string>> DeletePostByPostID(int PostID);
 
         ResultBase<List<PostViewModel>> GetAllPosts();
 
@@ -24,10 +27,10 @@ namespace Employee_CRUD.Bll
         {
         }
 
-        public void DeletePostById(int id)
-        {
+        //public bool DeletePostById(int id)
+        //{
 
-        }
+        //}
 
         public ResultBase<List<PostViewModel>> GetAllPosts()
         {
@@ -37,6 +40,7 @@ namespace Employee_CRUD.Bll
             {
                 PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
                 {
+                    PostID = x.PostID,
                     ImageName = x.ImageName,
                     PostCategory = x.PostID,
                     QuoteText = x.QuoteText,
@@ -49,6 +53,39 @@ namespace Employee_CRUD.Bll
                 result.Message = "Something went wrong please try again letter";
             }
             result.Result = PostList;
+
+            return result;
+
+        }
+
+        public ResultBase<List<string>> DeletePostByPostID(int PostID)
+        {
+            var result = new ResultBase<List<string>> { IsSuccess = false };
+            try
+            {
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand("PR_Post_PublicPost_Delete", sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PostID", PostID);
+                        int status = cmd.ExecuteNonQuery();
+                        if (status > 0)
+                        {
+                            result.Message = "Post Deleted Sucessfully";
+                            result.IsSuccess = true;
+                        }
+                        else
+                            result.Message = "Something went wrong please try again letter";
+                    }
+                }
+
+                
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Something went wrong please try again letter";
+            }
 
             return result;
 
