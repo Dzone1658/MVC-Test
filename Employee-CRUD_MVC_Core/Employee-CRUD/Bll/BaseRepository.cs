@@ -1,35 +1,21 @@
-﻿using Employee_CRUD.Data.Context;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using Employee_CRUD.Bll.Interface;
+using Employee_CRUD.Data.Context;
+
+using Microsoft.EntityFrameworkCore;
+
 namespace Employee_CRUD.Bll
 {
-    public interface IBaseRepository<T> where T : class
-    {
-        DbContext DBContext { get; }
-        IEnumerable<T> GetAll();
-        T Get(int id);
-        T Add(T entity);
-        void Edit(T entity);
-        void Delete(T entity);
-        void DeleteRange(IEnumerable<T> entities);
-        int Save();
-        Task<int> SaveAsync();
-        IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-        T FirstOrDefault(Expression<Func<T, bool>> predicate);
-        T LastOrDefault(Expression<Func<T, bool>> predicate);
-        bool Any(Expression<Func<T, bool>> predicate);
-    }
-
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly DataContext _dbContext;
-        private DbSet<T> _entities;
-        string errorMessage = string.Empty;
+        private readonly DbSet<T> _entities;
+        private readonly string errorMessage = string.Empty;
 
         public BaseRepository(DataContext context)
         {
@@ -41,7 +27,9 @@ namespace Employee_CRUD.Bll
         {
             get { return _dbContext; }
         }
+
         #region Read Methods
+
         /// <summary>
         ///  Finds an entity with the given primary key values. If an entity with the given
         ///     primary key values is being tracked by the context, then it is returned immediately
@@ -106,10 +94,9 @@ namespace Employee_CRUD.Bll
             return FindBy(predicate).Any();
         }
 
-        #endregion
+        #endregion Read Methods
 
         #region Write Methods
-
 
         public T Add(T entity)
         {
@@ -138,9 +125,9 @@ namespace Employee_CRUD.Bll
             _entities.Remove(entity);
         }
 
-        public void DeleteRange(IEnumerable<T> enetities)
+        public void DeleteRange(IEnumerable<T> entities)
         {
-            _entities.RemoveRange(enetities);
+            _entities.RemoveRange(entities);
         }
 
         public int Save()
@@ -153,7 +140,6 @@ namespace Employee_CRUD.Bll
             return _dbContext.SaveChangesAsync();
         }
 
-
-        #endregion
+        #endregion Write Methods
     }
 }

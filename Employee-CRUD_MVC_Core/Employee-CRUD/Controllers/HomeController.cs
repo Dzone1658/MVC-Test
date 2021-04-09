@@ -1,4 +1,5 @@
 ﻿using Employee_CRUD.Bll;
+using Employee_CRUD.Bll.Interface;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +12,6 @@ namespace Employee_CRUD.Controllers
 {
     public class HomeController : Controller
     {
-
         private readonly IQuotesBll _quotesBll;
 
         public HomeController(IQuotesBll quotesBll)
