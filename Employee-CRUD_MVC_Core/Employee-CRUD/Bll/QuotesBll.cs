@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using System.Data;
+using Microsoft.Extensions.Configuration;
 
 namespace Employee_CRUD.Bll
 {
@@ -23,13 +24,15 @@ namespace Employee_CRUD.Bll
 
     public class QuotesBll : BaseRepository<TBL_PublicPost>, IQuotesBll
     {
-        public QuotesBll(DataContext context) : base(context)
+        private readonly IConfiguration _configuration;
+
+        public QuotesBll(DataContext context, IConfiguration configuration) : base(context)
         {
+            _configuration = configuration;
         }
 
         //public bool DeletePostById(int id)
         //{
-
         //}
 
         public ResultBase<List<PostViewModel>> GetAllPosts()
@@ -55,7 +58,6 @@ namespace Employee_CRUD.Bll
             result.Result = PostList;
 
             return result;
-
         }
 
         public ResultBase<List<string>> DeletePostByPostID(int PostID)
@@ -63,7 +65,7 @@ namespace Employee_CRUD.Bll
             var result = new ResultBase<List<string>> { IsSuccess = false };
             try
             {
-                using (SqlConnection sqlConnection = Utils.Utils.GetConnection())
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
                     using (SqlCommand cmd = new SqlCommand("PR_Post_PublicPost_Delete", sqlConnection))
                     {
@@ -72,15 +74,13 @@ namespace Employee_CRUD.Bll
                         int status = cmd.ExecuteNonQuery();
                         if (status > 0)
                         {
-                            result.Message = "Post Deleted Sucessfully";
+                            result.Message = "Post Deleted Successfully";
                             result.IsSuccess = true;
                         }
                         else
                             result.Message = "Something went wrong please try again letter";
                     }
                 }
-
-                
             }
             catch (Exception ex)
             {
@@ -88,7 +88,6 @@ namespace Employee_CRUD.Bll
             }
 
             return result;
-
         }
 
         public ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel)
