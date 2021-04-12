@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading.Tasks;
 
 using Employee_CRUD.Bll;
+using Employee_CRUD.Filter;
 using Employee_CRUD.Models;
 
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_CRUD.Controllers
 {
+    [TypeFilter(typeof(CustomAuthorizationFilterAttribute))]
     public class QuotesController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;

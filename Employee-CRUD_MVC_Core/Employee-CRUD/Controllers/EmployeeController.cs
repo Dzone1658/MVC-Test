@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Employee_CRUD.Filter;
+
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Employee_CRUD.Controllers
 {
+    [TypeFilter(typeof(CustomAuthorizationFilterAttribute))]
     public class EmployeeController : Controller
     {
         // GET: EmployeeController

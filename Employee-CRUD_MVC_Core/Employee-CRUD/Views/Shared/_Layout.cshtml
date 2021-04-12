@@ -157,7 +157,6 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" data-toggle="dropdown" href="#">
                             <i class="far fa-user"></i>
-                            <span class="badge badge-warning navbar-badge">15</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                             <a href="#" class="dropdown-item">
@@ -168,8 +167,8 @@
                                 Change Password
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">
-                                Logout
+                            <a href="@Url.Action("Logout","Account")" class="dropdown-item">
+                                @*<i class="fa fa-key mr-2"></i>*@ Logout
                             </a>
                         </div>
                     </li>

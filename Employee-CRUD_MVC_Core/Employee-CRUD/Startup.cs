@@ -34,6 +34,7 @@ namespace Employee_CRUD
             //services.AddSingleton<ILogger>(svc => svc.GetRequiredService<ILogger<QuotesBll>>());
 
             //Dependency resolver
+            services.AddSession();
             services.AddTransient<IQuotesBll, QuotesBll>();
         }
 
@@ -56,12 +57,12 @@ namespace Employee_CRUD
             app.UseRouting( );
 
             app.UseAuthorization( );
-
+            app.UseSession();
             app.UseEndpoints( endpoints =>
              {
                  endpoints.MapControllerRoute(
                      name: "default",
-                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                     pattern: "{controller=Account}/{action=Login}/{id?}");
              } );
         }
     }
