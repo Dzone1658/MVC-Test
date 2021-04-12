@@ -4,9 +4,11 @@ using Employee_CRUD.Data.Context;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace Employee_CRUD
@@ -38,6 +40,9 @@ namespace Employee_CRUD
             //Dependency resolver
             services.AddSession();
             services.AddTransient<IQuotesBll, QuotesBll>();
+            services.AddTransient<IAccountBll, AccountBll>();
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

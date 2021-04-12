@@ -8,6 +8,7 @@ using Employee_CRUD.Data.Context;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
 
+using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -16,9 +17,12 @@ namespace Employee_CRUD.Bll
     public class QuotesBll : BaseRepository<TBL_PublicPost>, IQuotesBll
     {
         private readonly IConfiguration _configuration;
+        private readonly IHttpContextAccessor _contextAccessor;
 
-        public QuotesBll(DataContext context, IConfiguration configuration) : base(context)
+
+        public QuotesBll(DataContext context, IConfiguration configuration, IHttpContextAccessor contextAccessor) : base(context)
         {
+            _contextAccessor = contextAccessor;
             _configuration = configuration;
         }
 
@@ -80,6 +84,12 @@ namespace Employee_CRUD.Bll
         public ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel)
         {
             var result = new ResultBase<ManagePostModel> { IsSuccess = false };
+            string UserGUIDString = _contextAccessor.HttpContext.Session.GetString("UserID");
+            if (!string.IsNullOrEmpty(UserGUIDString))
+            {
+                int StartIndex = UserGUIDString.IndexOf(":");
+                UserGUIDString = UserGUIDString.Substring(StartIndex + 1).Trim();
+            }
             try
             {
                 TBL_PublicPost publicPost = new TBL_PublicPost
@@ -90,7 +100,7 @@ namespace Employee_CRUD.Bll
                     QuoteText = managePostModel.QuoteText,
                     Tags = managePostModel.Tags,
                     IsActive = true,
-                    UserID = 1
+                    UserID = UserGUIDString
                 };
                 Add(publicPost);
                 Save();

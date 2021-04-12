@@ -8,13 +8,13 @@ Tools and Technologies required:
 
 Application Status:
 -------------------------------------------------
->Dockerized locally and tested in dev_environment
+>Dockerized locally and tested in dev_environment ==> DONE
 
 SPs:
 -------------------------------
 select post
 add new post
-   -insert tags if any new
+   -insert tags if any new =>
    -insert post tags
    -insert category if any new
 delete post

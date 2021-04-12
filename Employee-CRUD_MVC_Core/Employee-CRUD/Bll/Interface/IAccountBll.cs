@@ -2,18 +2,16 @@
 
 using Employee_CRUD.Models;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Employee_CRUD.Bll.Interface
 {
     public interface IAccountBll
     {
-        ResultBase<List<string>> Login(Models.LoginViewModel loginViewModel);
+        Task<ResultBase<string>> Login(Models.LoginViewModel loginViewModel);
 
-        ResultBase<Models.LoginViewModel> SignUp(RegisterViewModel registerModel);
+        Task<ResultBase<string>> SignUp(RegisterViewModel registerModel);
+        Task<ResultBase<string>> ResetPassword(string userEmail);
 
     }
 }
