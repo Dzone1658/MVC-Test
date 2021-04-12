@@ -58,7 +58,6 @@ namespace Employee_CRUD
 
             app.UseRouting();
 
-<<<<<<< HEAD
             app.UseAuthorization( );
             app.UseSession();
             app.UseEndpoints( endpoints =>
@@ -67,16 +66,6 @@ namespace Employee_CRUD
                      name: "default",
                      pattern: "{controller=Account}/{action=Login}/{id?}");
              } );
-=======
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
->>>>>>> 26bd60ac490337768f739f54e63d7ec356a5ae87
         }
     }
 }

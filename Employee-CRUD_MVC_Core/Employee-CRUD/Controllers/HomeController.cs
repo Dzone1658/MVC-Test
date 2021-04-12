@@ -1,9 +1,6 @@
 ﻿using Employee_CRUD.Bll;
-<<<<<<< HEAD
-using Employee_CRUD.Filter;
-=======
 using Employee_CRUD.Bll.Interface;
->>>>>>> 26bd60ac490337768f739f54e63d7ec356a5ae87
+using Employee_CRUD.Filter;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
