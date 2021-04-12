@@ -1,5 +1,7 @@
 using Employee_CRUD.Bll;
+using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Context;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +23,7 @@ namespace Employee_CRUD
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews( );
+            services.AddControllersWithViews();
             //services.AddDbContext<DataContext>(options =>
             //{
             //    options.UseNpgsql(Configuration.GetConnectionString("NpgsqlConnection"));
@@ -41,21 +43,22 @@ namespace Employee_CRUD
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if ( env.IsDevelopment( ) )
+            if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage( );
+                app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseExceptionHandler("/Employee/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts( );
+                app.UseHsts();
             }
-            app.UseHttpsRedirection( );
-            app.UseStaticFiles( );
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-            app.UseRouting( );
+            app.UseRouting();
 
+<<<<<<< HEAD
             app.UseAuthorization( );
             app.UseSession();
             app.UseEndpoints( endpoints =>
@@ -64,6 +67,16 @@ namespace Employee_CRUD
                      name: "default",
                      pattern: "{controller=Account}/{action=Login}/{id?}");
              } );
+=======
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+>>>>>>> 26bd60ac490337768f739f54e63d7ec356a5ae87
         }
     }
 }

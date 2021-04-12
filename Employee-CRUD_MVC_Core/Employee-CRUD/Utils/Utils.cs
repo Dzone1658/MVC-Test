@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Employee_CRUD.Utils
 {
-    public class Utils
+    public static class Utils
     {
         public static SqlConnection GetConnection(IConfiguration configuration)
         {

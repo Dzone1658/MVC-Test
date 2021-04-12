@@ -1,27 +1,18 @@
-﻿using Employee_CRUD.Data.Context;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+
+using Employee_CRUD.Bll.Interface;
+using Employee_CRUD.Data.Context;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
-using BolierPlate;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.Data.SqlClient;
-using System.Data;
 using Microsoft.Extensions.Configuration;
 
 namespace Employee_CRUD.Bll
 {
-    public interface IQuotesBll : IBaseRepository<TBL_PublicPost>
-    {
-        //bool DeletePostById(int id);
-        ResultBase<List<string>> DeletePostByPostID(int PostID);
-
-        ResultBase<List<PostViewModel>> GetAllPosts();
-
-        ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel);
-    }
-
     public class QuotesBll : BaseRepository<TBL_PublicPost>, IQuotesBll
     {
         private readonly IConfiguration _configuration;
@@ -31,14 +22,10 @@ namespace Employee_CRUD.Bll
             _configuration = configuration;
         }
 
-        //public bool DeletePostById(int id)
-        //{
-        //}
-
         public ResultBase<List<PostViewModel>> GetAllPosts()
         {
             var result = new ResultBase<List<PostViewModel>> { IsSuccess = false };
-            List<PostViewModel> PostList = new List<PostViewModel>();
+            List<PostViewModel> PostList = new();
             try
             {
                 PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
@@ -53,7 +40,7 @@ namespace Employee_CRUD.Bll
             }
             catch (Exception ex)
             {
-                result.Message = "Something went wrong please try again letter";
+                result.Message = "Something went wrong please try again letter" + ex.Message;
             }
             result.Result = PostList;
 
@@ -84,7 +71,7 @@ namespace Employee_CRUD.Bll
             }
             catch (Exception ex)
             {
-                result.Message = "Something went wrong please try again letter";
+                result.Message = "Something went wrong please try again letter" + ex.Message;
             }
 
             return result;
@@ -112,7 +99,7 @@ namespace Employee_CRUD.Bll
             }
             catch (Exception ex)
             {
-                result.Message = "Something Went Wring while Saving record. Please try again letter.";
+                result.Message = "Something Went Wring while Saving record. Please try again letter." + ex.Message;
             }
 
             return result;
