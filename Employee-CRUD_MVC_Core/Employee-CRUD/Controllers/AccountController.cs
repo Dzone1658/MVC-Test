@@ -1,4 +1,5 @@
 ﻿using BoilerPlate.Data.Models;
+using BoilerPlate.Model.ViewModel;
 
 using Employee_CRUD.Models;
 
@@ -20,12 +21,29 @@ namespace Employee_CRUD.Controllers
 {
     public class AccountController : Controller
     {
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             return View();
         }
+
+        public IActionResult Signup()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPassword()
+        {
+            return View();
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.SetString("UserID", string.Empty);
+            return RedirectToAction("Login", "Account");
+        }
+
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(Models.LoginViewModel loginViewModel)
         {
             string apiUrl = "https://localhost:44355/api/Auth/Login";
             using (HttpClient client = new HttpClient())
@@ -51,16 +69,73 @@ namespace Employee_CRUD.Controllers
                             Token = result.Result.Substring(StartIndexValue, EndIndexValue - StartIndexValue).Trim();
                         }
                         GetDecodedToken(Token);
-                        HttpContext.Session.SetString("UserRole", "Admin");
                         return RedirectToAction("Index", "Home");
                     }
 
                     else
-                        ModelState.AddModelError("", "Invalid user name or password");
+                        ModelState.AddModelError("", result.Message);
                 }
                 else
                 {
                     ModelState.AddModelError("", "Invalid user name or password");
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Signup(RegisterViewModel registerViewModel)
+        {
+            string apiUrl = "https://localhost:44355/api/Auth/RegisterUser";
+            using (HttpClient client = new HttpClient())
+            {
+                var parameters = new Dictionary<string, string> { { "username", registerViewModel.Username }, { "password", registerViewModel.Password },{ "Email",registerViewModel.Email}, { "Role", "User" } };
+                var content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<BoilerPlate.Model.ViewModel.ApiResultBase<ApplicationUser>>(data);
+                    if (result.IsSuccess)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                        ModelState.AddModelError("", result.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Something went wrong please try again letter");
+                }
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(RegisterViewModel registerViewModel)
+        {
+            string apiUrl = "https://localhost:44355/api/Auth/ResetPasswordRequest?UserEmail="+registerViewModel.Email;
+            using (HttpClient client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(apiUrl);
+                client.DefaultRequestHeaders.Accept.Clear();
+                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                if (response.IsSuccessStatusCode)
+                {
+                    var data = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<BoilerPlate.Model.ViewModel.ApiWithoutResultBase>(data);
+                    if (result.IsSuccess)
+                    {
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                        ModelState.AddModelError("", result.Message);
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Something went wrong please try again letter");
                 }
             }
             return View();
@@ -84,13 +159,7 @@ namespace Employee_CRUD.Controllers
             HttpContext.Session.SetString("UserName", claims.Claims.Where(x => x.Type == "UserName").FirstOrDefault().ToString());
             HttpContext.Session.SetString("UserID", claims.Claims.Where(x => x.Type == "UserID").FirstOrDefault().ToString());
             HttpContext.Session.SetString("UserPhone", claims.Claims.Where(x => x.Type == "UserPhone").FirstOrDefault().ToString());
-            //return claims.Identity.Name;
         }
 
-        public IActionResult Logout()
-        {
-            HttpContext.Session.SetString("UserID", string.Empty);
-            return RedirectToAction("Login", "Account");
-        }
     }
 }
