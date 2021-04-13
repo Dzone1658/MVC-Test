@@ -51,6 +51,38 @@ namespace Employee_CRUD.Bll
             return result;
         }
 
+        public ResultBase<List<PostViewModel>> GetAllUserPosts()
+        {
+            var result = new ResultBase<List<PostViewModel>> { IsSuccess = false };
+            List<PostViewModel> PostList = new();
+            try
+            {
+                string UserGUIDString = _contextAccessor.HttpContext.Session.GetString("UserID");
+                if (!string.IsNullOrEmpty(UserGUIDString))
+                {
+                    int StartIndex = UserGUIDString.IndexOf(":");
+                    UserGUIDString = UserGUIDString.Substring(StartIndex + 1).Trim();
+                }
+                PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
+                {
+                    PostID = x.PostID,
+                    ImageName = x.ImageName,
+                    PostCategory = x.PostID,
+                    QuoteText = x.QuoteText,
+                    Tags = x.Tags,
+                    UserName = x.UserID.ToString(),
+                    PostedDateTime = x.PostedDateTime
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                result.Message = "Something went wrong please try again letter" + ex.Message;
+            }
+            result.Result = PostList;
+
+            return result;
+        }
+
         public ResultBase<List<string>> DeletePostByPostID(int PostID)
         {
             var result = new ResultBase<List<string>> { IsSuccess = false };
@@ -114,5 +146,7 @@ namespace Employee_CRUD.Bll
 
             return result;
         }
+
+
     }
 }

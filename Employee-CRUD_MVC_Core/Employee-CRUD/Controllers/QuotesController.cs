@@ -2,10 +2,13 @@
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Filter;
 using Employee_CRUD.Models;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Employee_CRUD.Controllers
@@ -56,5 +59,26 @@ namespace Employee_CRUD.Controllers
             _quotesBll.Upsert(sampleImageModel);
             return RedirectToAction("Index", "Home");
         }
+        [HttpGet]
+        public JsonResult DeletePostByPostID(int PostId)
+        {
+            var result = _quotesBll.DeletePostByPostID(PostId);
+            return Json(new { result });
+        }
+
+
+        public ActionResult GetUserPost(DataTablesModel search)
+        {
+            var UserPostData = _quotesBll.GetAllUserPosts();
+
+            var totalCount = UserPostData.Result.Count();
+            if (search.iDisplayStart >= 0 && search.iDisplayLength > 0)
+            {
+                UserPostData.Result = UserPostData.Result.OrderByDescending(x => x.PostedDateTime).Skip(search.iDisplayStart).Take(search.iDisplayLength).ToList();
+            }
+
+            return Json(new DataTablesResponse<PostViewModel>(UserPostData.Result, totalCount, totalCount, search.sEcho));
+        }
+
     }
 }

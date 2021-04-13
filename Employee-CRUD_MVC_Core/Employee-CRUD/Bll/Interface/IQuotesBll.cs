@@ -11,6 +11,8 @@ namespace Employee_CRUD.Bll.Interface
 
         ResultBase<List<PostViewModel>> GetAllPosts();
 
+        ResultBase<List<PostViewModel>> GetAllUserPosts();
+
         ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel);
     }
 }

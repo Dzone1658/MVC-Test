@@ -3,61 +3,29 @@
     ViewBag.Title = "Index";
 }
 
-<div class="card">
-    <div class="card-header">
-        <h2 class="card-title">All Post</h2>
-        <div class="card-tools">
-            <a href="@Url.Action("ManageQuotes","Quotes")" class="btn btn-sm btn-primary"> Add New</a>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="card">
+                <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top" alt="@item.QuoteText">
+                <div class="card-body">
+                    <h5 class="card-title">@item.PostCategory</h5>
+                    <p class="card-text">@item.QuoteText.Substring(0, 100)</p>
+                    <footer class="blockquote-footer">@item.PostedDateTime</footer>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table id="tblPosts" class="table table-striped table-bordered table-hover table-sm">
-                <thead>
-                    <tr>
-                        <th>Image</th>
-                        <th>Text</th>
-                        <th>Tags</th>
-                        <th>Category</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @* ToDos: Change loop to datatables *@
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td class="text-center"><img style="height:100px;width:100px" src="~/Assets/Image/QuotesData/@item.ImageName"></td>
-                        <td class="text-center">@item.QuoteText</td>
-                        <td class="text-center">@item.Tags</td>
-                        <td class="text-center">@item.PostCategory</td>
-                        <td class="text-center"><a class="btn btn-sm btn-primary post-delete" onclick="DeletePostByPostID(@item.PostID)">Delete</a></td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
+    }
 </div>
+
+
+
 @section scripts{
     <script type="text/javascript">
         $(document).ready(function () {
 
         });
-
-        function DeletePostByPostID(postID) {
-            $.ajax({
-                url: "/Home/DeletePostByPostID?PostId=" + postID,
-                type: 'Get',
-                data: postID,
-                success: function (result) {
-                    if (result.result.isSuccess) {
-                        alert(result.result.message);
-                        location.reload();
-                    }
-                }
-            });
-        }
-
     </script>
 }

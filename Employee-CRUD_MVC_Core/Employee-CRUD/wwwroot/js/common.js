@@ -2,7 +2,6 @@
 function OpenPopup(response, title) {
     $(".modal-title").html(title);
     $("#modalHTML").html(response);
-    $("#leave-model").modal("show");
 }
 
 var getDataPost = function (url, param, successCallback) {
@@ -57,7 +56,7 @@ function getMomentDate(value) {
 function getMomentTime(value) {
     return moment(value, "HH:II");
 }
-
+    
 //Toastr
 
 function Toastr(type, msg) {
@@ -94,7 +93,7 @@ function deleteRecord(successCallback) {
         confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         successCallback(result.value);
-    })
+        })
 }
 
 function ConfirmBox(title, text, successCallback) {

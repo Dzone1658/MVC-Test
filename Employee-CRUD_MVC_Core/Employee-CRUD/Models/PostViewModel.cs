@@ -13,5 +13,6 @@ namespace Employee_CRUD.Models
         public int PostCategory { get; set; }
         public string ImageName { get; set; }
         public string UserName { get; set; }
+        public DateTime PostedDateTime { get; set; }
     }
 }
