@@ -34,7 +34,7 @@
             getPost();
         });
 
-        $(".post-delete").on("click", function () {
+        $(document).on("click", ".post-delete", function () {
             var postID = $(this).data("id");
             deleteRecord(function (result) {
                 if (result) {
@@ -45,6 +45,7 @@
                         success: function (result) {
                             if (result.result.isSuccess) {
                                 Toastr("success", result.result.message);
+                                oTable.ajax.reload();
                             }
                         }
                     });
@@ -74,12 +75,12 @@
                         }
                     },
                     { "data": "quoteText" },
-                    { "data": "postCategory" },
                     { "data": "tags" },
+                    { "data": "postCategory" },
                     {
                         "data": "postID",
                         "render": function (data, type, full, meta) {
-                                return '<a data-id='+data+'" class="btn btn-sm btn-default post-delete">Delete</a>'
+                                return '<a data-id='+data+' class="btn btn-sm btn-danger post-delete">Delete</a>'
                         }
                     },
                 ]

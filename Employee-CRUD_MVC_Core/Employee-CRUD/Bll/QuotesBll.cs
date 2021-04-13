@@ -7,6 +7,7 @@ using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Context;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
+using Employee_CRUD.Utils;
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
@@ -18,12 +19,13 @@ namespace Employee_CRUD.Bll
     {
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _contextAccessor;
+        //private readonly SessionHelper _sessionHelper;
 
-
-        public QuotesBll(DataContext context, IConfiguration configuration, IHttpContextAccessor contextAccessor) : base(context)
+        public QuotesBll(DataContext context, IConfiguration configuration, IHttpContextAccessor contextAccessor/*, SessionHelper sessionHelper*/) : base(context)
         {
             _contextAccessor = contextAccessor;
             _configuration = configuration;
+            //_sessionHelper = sessionHelper;
         }
 
         public ResultBase<List<PostViewModel>> GetAllPosts()
@@ -63,6 +65,9 @@ namespace Employee_CRUD.Bll
                     int StartIndex = UserGUIDString.IndexOf(":");
                     UserGUIDString = UserGUIDString.Substring(StartIndex + 1).Trim();
                 }
+
+                //var UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
+
                 PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
