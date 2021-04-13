@@ -1,10 +1,8 @@
 ﻿using Employee_CRUD.Bll;
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Filter;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;

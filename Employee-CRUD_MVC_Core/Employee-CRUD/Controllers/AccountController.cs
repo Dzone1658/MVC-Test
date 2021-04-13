@@ -1,17 +1,7 @@
-﻿using BoilerPlate.Data.Models;
-using BoilerPlate.Model.ViewModel;
-
+﻿using BoilerPlate.Model.ViewModel;
 using Employee_CRUD.Bll.Interface;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
-using Newtonsoft.Json;
-
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Employee_CRUD.Controllers
@@ -63,7 +53,7 @@ namespace Employee_CRUD.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Signup(RegisterViewModel registerViewModel)
+        public IActionResult Signup(RegisterViewModel registerViewModel)
         {
             var result = _accountBll.SignUp(registerViewModel);
 

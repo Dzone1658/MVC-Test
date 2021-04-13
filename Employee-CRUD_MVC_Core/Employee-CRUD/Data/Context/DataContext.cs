@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Employee_CRUD.Data.Entities;
-//using System.Data.Entity;
 
 namespace Employee_CRUD.Data.Context
 {

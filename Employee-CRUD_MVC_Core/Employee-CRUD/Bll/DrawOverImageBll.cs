@@ -50,12 +50,6 @@ namespace Employee_CRUD.Bll
             stringformat.Alignment = StringAlignment.Center;
             stringformat.LineAlignment = StringAlignment.Center;
             stringformat.FormatFlags = StringFormatFlags.NoClip;
-            //string ColorCodePattern = @"^#([0-9A-F]{3}){1,2}$";
-            //bool isValidColor = Regex.IsMatch(ColorCode, ColorCodePattern);
-            //if (!isValidColor)
-            //{
-            //    ColorCode = "#fff";
-            //}
             Color StringColor = System.Drawing.ColorTranslator.FromHtml(ColorCode);
             RectangleF position = new RectangleF(0, 0, 0.0F, 0.0F);
             if (QuotesPosition == "Top Left")

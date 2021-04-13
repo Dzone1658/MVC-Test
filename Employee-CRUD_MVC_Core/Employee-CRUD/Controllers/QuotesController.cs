@@ -1,23 +1,23 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
-
-using Employee_CRUD.Bll;
+﻿using Employee_CRUD.Bll;
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Filter;
 using Employee_CRUD.Models;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Employee_CRUD.Controllers
 {
     [TypeFilter(typeof(CustomAuthorizationFilterAttribute))]
     public class QuotesController : Controller
     {
+        [Obsolete]
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IQuotesBll _quotesBll;
 
+        [Obsolete]
         public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll)
         {
             _hostingEnvironment = hostingEnvironment;
@@ -35,6 +35,7 @@ namespace Employee_CRUD.Controllers
         }
 
         [HttpPost]
+        [Obsolete]
         public async Task<IActionResult> ManageQuotes(ManagePostModel sampleImageModel)
         {
             var path = Path.Combine(_hostingEnvironment.WebRootPath, @"Assets/Image/UserUploadedImages/");
@@ -53,9 +54,6 @@ namespace Employee_CRUD.Controllers
             }
             sampleImageModel.ImageName = DrawOverImageBll.DrawTextOverImage(sampleImageModel.QuoteText, FileSaveLocation, sampleImageModel.Position, sampleImageModel.FontColor, sampleImageModel.FontSize);
             _quotesBll.Upsert(sampleImageModel);
-            //var result = _quotesBll.Upsert(sampleImageModel);
-            //Return Json with msg and redirect to same page with newly added post.
-            //string strPhoto = (@"Assets/Image/QuotesData/" + sampleImageModel.ImageName);
             return RedirectToAction("Index", "Home");
         }
     }
