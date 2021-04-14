@@ -1,14 +1,11 @@
 ﻿using BoilerPlate.Data.Models;
 using BoilerPlate.Model.ViewModel;
-
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Models;
-
+using Employee_CRUD.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
-
 using Newtonsoft.Json;
-
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -32,18 +29,17 @@ namespace Employee_CRUD.Bll
         {
             var result = new ResultBase<string> { IsSuccess = false };
 
-            string apiUrl = "https://localhost:44355/api/Auth/Login";
             using (HttpClient client = new HttpClient())
             {
                 var parameters = new Dictionary<string, string> { { "username", loginViewModel.Email }, { "password", loginViewModel.Password } };
                 var content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
-                client.BaseAddress = new Uri(apiUrl);
+                client.BaseAddress = new Uri(Resources.LoginUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
-                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                HttpResponseMessage response = await client.PostAsync(Resources.LoginUrl, content);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    var responseResult = JsonConvert.DeserializeObject<BoilerPlate.Model.ViewModel.ApiResultBase<string>>(data);
+                    var responseResult = JsonConvert.DeserializeObject<ApiResultBase<string>>(data);
                     if (responseResult.IsSuccess)
                     {
                         string Token = string.Empty;
@@ -74,18 +70,18 @@ namespace Employee_CRUD.Bll
         public async Task<ResultBase<string>> SignUp(RegisterViewModel registerViewModel)
         {
             var result = new ResultBase<string> { IsSuccess = false };
-            string apiUrl = "https://localhost:44355/api/Auth/RegisterUser";
+
             using (HttpClient client = new HttpClient())
             {
                 var parameters = new Dictionary<string, string> { { "username", registerViewModel.Username }, { "password", registerViewModel.Password }, { "Email", registerViewModel.Email }, { "Role", "User" } };
                 var content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
-                client.BaseAddress = new Uri(apiUrl);
+                client.BaseAddress = new Uri(Resources.SignUpUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
-                HttpResponseMessage response = await client.PostAsync(apiUrl, content);
+                HttpResponseMessage response = await client.PostAsync(Resources.SignUpUrl, content);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    var responseResult = JsonConvert.DeserializeObject<BoilerPlate.Model.ViewModel.ApiResultBase<ApplicationUser>>(data);
+                    var responseResult = JsonConvert.DeserializeObject<ApiResultBase<ApplicationUser>>(data);
                     if (result.IsSuccess)
                     {
                         result.IsSuccess = responseResult.IsSuccess;
@@ -107,17 +103,16 @@ namespace Employee_CRUD.Bll
         public async Task<ResultBase<string>> ResetPassword(string userEmail)
         {
             var result = new ResultBase<string> { IsSuccess = false };
-            string apiUrl = "https://localhost:44355/api/Auth/ResetPasswordRequest?UserEmail=" + userEmail;
 
             using (HttpClient client = new HttpClient())
             {
-                client.BaseAddress = new Uri(apiUrl);
+                client.BaseAddress = new Uri(Resources.ResetPasswordUrl + userEmail);
                 client.DefaultRequestHeaders.Accept.Clear();
-                HttpResponseMessage response = await client.GetAsync(apiUrl);
+                HttpResponseMessage response = await client.GetAsync(Resources.ResetPasswordUrl + userEmail);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
-                    var responseResult = JsonConvert.DeserializeObject<BoilerPlate.Model.ViewModel.ApiResultBase<string>>(data);
+                    var responseResult = JsonConvert.DeserializeObject<ApiResultBase<string>>(data);
                     if (result.IsSuccess)
                     {
                         result.IsSuccess = responseResult.IsSuccess;
@@ -136,12 +131,10 @@ namespace Employee_CRUD.Bll
             return result;
         }
 
-        protected void GetDecodedToken(string token)
+        private void GetDecodedToken(string token)
         {
             var context = _contextAccessor.HttpContext;
-            //ToDos get key from app settings
-            string secret = "onlykeytoaccesstoken";
-            var key = Encoding.ASCII.GetBytes(secret);
+            var key = Encoding.ASCII.GetBytes(Resources.SecretKey);
             var handler = new JwtSecurityTokenHandler();
             var validations = new TokenValidationParameters
             {
@@ -156,7 +149,5 @@ namespace Employee_CRUD.Bll
             context.Session.SetString("UserID", claims.Claims.Where(x => x.Type == "UserID").FirstOrDefault().ToString());
             context.Session.SetString("UserPhone", claims.Claims.Where(x => x.Type == "UserPhone").FirstOrDefault().ToString());
         }
-
-
     }
 }

@@ -1,7 +1,5 @@
 ﻿using BoilerPlate.Model.ViewModel;
-
 using Employee_CRUD.Models;
-
 using System.Threading.Tasks;
 
 namespace Employee_CRUD.Bll.Interface

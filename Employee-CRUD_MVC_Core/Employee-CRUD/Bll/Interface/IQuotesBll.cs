@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
 

@@ -2,7 +2,6 @@
 using Employee_CRUD.Bll.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Employee_CRUD.Controllers
 {

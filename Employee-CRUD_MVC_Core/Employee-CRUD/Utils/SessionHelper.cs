@@ -1,15 +1,11 @@
 ﻿using Employee_CRUD.Models;
+using Employee_CRUD.Utils.Interface;
 
 using Microsoft.AspNetCore.Http;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Employee_CRUD.Utils
 {
-    public class SessionHelper
+    public class SessionHelper : ISessionHelper
     {
         private readonly IHttpContextAccessor _contextAccessor;
 

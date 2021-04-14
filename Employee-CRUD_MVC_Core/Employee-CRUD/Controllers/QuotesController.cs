@@ -2,10 +2,8 @@
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Filter;
 using Employee_CRUD.Models;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-
 using System;
 using System.IO;
 using System.Linq;
@@ -59,6 +57,7 @@ namespace Employee_CRUD.Controllers
             _quotesBll.Upsert(sampleImageModel);
             return RedirectToAction("Index", "Home");
         }
+
         [HttpGet]
         public JsonResult DeletePostByPostID(int PostId)
         {

@@ -2,6 +2,7 @@ using Employee_CRUD.Bll;
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Context;
 using Employee_CRUD.Utils;
+using Employee_CRUD.Utils.Interface;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,6 +43,7 @@ namespace Employee_CRUD
             services.AddSession();
             services.AddTransient<IQuotesBll, QuotesBll>();
             services.AddTransient<IAccountBll, AccountBll>();
+            services.AddTransient<ISessionHelper, SessionHelper>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
         }

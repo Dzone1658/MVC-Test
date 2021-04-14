@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Context;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
-using Employee_CRUD.Utils;
-
-using Microsoft.AspNetCore.Http;
+using Employee_CRUD.Utils.Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 
@@ -18,14 +15,12 @@ namespace Employee_CRUD.Bll
     public class QuotesBll : BaseRepository<TBL_PublicPost>, IQuotesBll
     {
         private readonly IConfiguration _configuration;
-        private readonly IHttpContextAccessor _contextAccessor;
-        //private readonly SessionHelper _sessionHelper;
+        private readonly ISessionHelper _sessionHelper;
 
-        public QuotesBll(DataContext context, IConfiguration configuration, IHttpContextAccessor contextAccessor/*, SessionHelper sessionHelper*/) : base(context)
+        public QuotesBll(DataContext context, IConfiguration configuration, ISessionHelper sessionHelper) : base(context)
         {
-            _contextAccessor = contextAccessor;
             _configuration = configuration;
-            //_sessionHelper = sessionHelper;
+            _sessionHelper = sessionHelper;
         }
 
         public ResultBase<List<PostViewModel>> GetAllPosts()
@@ -34,6 +29,7 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
+                string UserGUIDString = _sessionHelper.GetDecodedSession().UserName;
                 PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
@@ -41,7 +37,8 @@ namespace Employee_CRUD.Bll
                     PostCategory = x.PostID,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
-                    UserName = x.UserID.ToString()
+                    //UserName = x.UserID.ToString()
+                    UserName = UserGUIDString
                 }).ToList();
             }
             catch (Exception ex)
@@ -59,15 +56,7 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
-                string UserGUIDString = _contextAccessor.HttpContext.Session.GetString("UserID");
-                if (!string.IsNullOrEmpty(UserGUIDString))
-                {
-                    int StartIndex = UserGUIDString.IndexOf(":");
-                    UserGUIDString = UserGUIDString.Substring(StartIndex + 1).Trim();
-                }
-
-                //var UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
-
+                string UserGUIDString = _sessionHelper.GetDecodedSession().UserName;
                 PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
@@ -75,7 +64,8 @@ namespace Employee_CRUD.Bll
                     PostCategory = x.PostID,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
-                    UserName = x.UserID.ToString(),
+                    //UserName = x.UserID.ToString(),
+                    UserName = UserGUIDString,
                     PostedDateTime = x.PostedDateTime
                 }).ToList();
             }
@@ -121,12 +111,7 @@ namespace Employee_CRUD.Bll
         public ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel)
         {
             var result = new ResultBase<ManagePostModel> { IsSuccess = false };
-            string UserGUIDString = _contextAccessor.HttpContext.Session.GetString("UserID");
-            if (!string.IsNullOrEmpty(UserGUIDString))
-            {
-                int StartIndex = UserGUIDString.IndexOf(":");
-                UserGUIDString = UserGUIDString.Substring(StartIndex + 1).Trim();
-            }
+            string UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
             try
             {
                 TBL_PublicPost publicPost = new TBL_PublicPost
@@ -151,7 +136,5 @@ namespace Employee_CRUD.Bll
 
             return result;
         }
-
-
     }
 }
