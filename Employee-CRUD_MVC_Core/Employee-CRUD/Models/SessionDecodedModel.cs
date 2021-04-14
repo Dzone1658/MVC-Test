@@ -7,6 +7,7 @@ namespace Employee_CRUD.Models
 {
     public class SessionDecodedModel
     {
+        public string Token { get; set; }
         public string UserID { get; set; }
         public string Email { get; set; }
         public string UserName { get; set; }

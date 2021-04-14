@@ -18,6 +18,12 @@ namespace Employee_CRUD.Utils
         {
             SessionDecodedModel sessionDecodedModel = new();
             int StartIndex = 0;
+            string Token = _contextAccessor.HttpContext.Session.GetString("Token");
+            if (!string.IsNullOrEmpty(Token))
+            {
+                StartIndex = Token.IndexOf(":");
+                sessionDecodedModel.Token = Token.Substring(StartIndex + 1).Trim();
+            }
             string UserGUIDString = _contextAccessor.HttpContext.Session.GetString("UserID");
             if (!string.IsNullOrEmpty(UserGUIDString))
             {

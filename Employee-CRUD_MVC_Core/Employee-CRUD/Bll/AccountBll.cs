@@ -108,7 +108,7 @@ namespace Employee_CRUD.Bll
             {
                 client.BaseAddress = new Uri(Resources.ResetPasswordUrl + userEmail);
                 client.DefaultRequestHeaders.Accept.Clear();
-                HttpResponseMessage response = await client.GetAsync(Resources.ResetPasswordUrl + userEmail);
+                HttpResponseMessage response = await client.GetAsync(client.BaseAddress);
                 if (response.IsSuccessStatusCode)
                 {
                     var data = await response.Content.ReadAsStringAsync();
@@ -144,6 +144,7 @@ namespace Employee_CRUD.Bll
                 ValidateAudience = false
             };
             var claims = handler.ValidateToken(token, validations, out var tokenSecure);
+            context.Session.SetString("BearerToken", token);
             context.Session.SetString("Email", claims.Claims.Where(x => x.Type == "Email").FirstOrDefault().ToString());
             context.Session.SetString("UserName", claims.Claims.Where(x => x.Type == "UserName").FirstOrDefault().ToString());
             context.Session.SetString("UserID", claims.Claims.Where(x => x.Type == "UserID").FirstOrDefault().ToString());

@@ -14,6 +14,7 @@ namespace Employee_CRUD.Data.Entities
         public string Tags { get; set; }
         public string ImageName { get; set; }
         public string UserID { get; set; }
+        public string UserName { get; set; }
         public int CategoryID { get; set; }
         public DateTime PostedDateTime { get; set; }
     }

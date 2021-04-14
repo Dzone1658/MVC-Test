@@ -11,9 +11,14 @@
             <div class="card">
                 <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top" alt="@item.QuoteText">
                 <div class="card-body">
-                    <h5 class="card-title">@item.PostCategory</h5>
-                    <p class="card-text">@item.QuoteText.Substring(0, 100)</p>
-                    <footer class="blockquote-footer">@item.PostedDateTime</footer>
+                    <h5 class="card-title text-bold">@item.UserName</h5>
+                    <p class="card-text">
+                        @if(item.QuoteText.Length > 100)
+                            @item.QuoteText.Substring(0, 100)
+                        else
+                            @item.QuoteText
+                    </p>
+                    <footer class="blockquote-footer">@item.PostedDateTime.ToString("dd MMM yyyy hh:mm tt") </footer>
                 </div>
             </div>
         </div>

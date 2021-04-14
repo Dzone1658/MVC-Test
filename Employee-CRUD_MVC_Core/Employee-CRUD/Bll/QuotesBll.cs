@@ -29,7 +29,6 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
-                string UserGUIDString = _sessionHelper.GetDecodedSession().UserName;
                 PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
@@ -37,9 +36,9 @@ namespace Employee_CRUD.Bll
                     PostCategory = x.PostID,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
-                    //UserName = x.UserID.ToString()
-                    UserName = UserGUIDString
-                }).ToList();
+                    UserName = x.UserName,
+                    PostedDateTime=x.PostedDateTime
+                }).OrderByDescending(x=>x.PostedDateTime).ToList();
             }
             catch (Exception ex)
             {
@@ -56,7 +55,7 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
-                string UserGUIDString = _sessionHelper.GetDecodedSession().UserName;
+                string UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
                 PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
@@ -64,7 +63,6 @@ namespace Employee_CRUD.Bll
                     PostCategory = x.PostID,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
-                    //UserName = x.UserID.ToString(),
                     UserName = UserGUIDString,
                     PostedDateTime = x.PostedDateTime
                 }).ToList();
@@ -111,7 +109,7 @@ namespace Employee_CRUD.Bll
         public ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel)
         {
             var result = new ResultBase<ManagePostModel> { IsSuccess = false };
-            string UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
+            var Session = _sessionHelper.GetDecodedSession();
             try
             {
                 TBL_PublicPost publicPost = new TBL_PublicPost
@@ -122,7 +120,8 @@ namespace Employee_CRUD.Bll
                     QuoteText = managePostModel.QuoteText,
                     Tags = managePostModel.Tags,
                     IsActive = true,
-                    UserID = UserGUIDString
+                    UserName = Session.UserName,
+                    UserID = Session.UserID
                 };
                 Add(publicPost);
                 Save();
@@ -133,7 +132,6 @@ namespace Employee_CRUD.Bll
             {
                 result.Message = "Something Went Wring while Saving record. Please try again letter." + ex.Message;
             }
-
             return result;
         }
     }
