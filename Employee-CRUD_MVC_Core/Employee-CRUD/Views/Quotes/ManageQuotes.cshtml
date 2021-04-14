@@ -4,69 +4,72 @@
 
 @using (Html.BeginForm("ManageQuotes", "Quotes", FormMethod.Post, new { @id = "ManageQuotes", @enctype = "multipart/form-data" }))
 {
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label class="control-label">Select Image</label>
-            @Html.TextBoxFor(m => m.ImageContent, new { @type = "file", @class = "form-control  form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.ImageContent, "", new { @class = "text-danger col-form-label" })
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="control-label">Select Image</label>
+                @Html.TextBoxFor(m => m.ImageContent, new { @type = "file", @class = "form-control  form-control-sm", @required = "Required" })
+                @Html.ValidationMessageFor(m => m.ImageContent, "", new { @class = "text-danger col-form-label" })
+            </div>
         </div>
-    </div>
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label class="control-label">Quote Text</label>
-            @Html.TextAreaFor(m => m.QuoteText, new { @class = "form-control form-control-sm", @required = "Required", AutoComplete = "off", rows = "5" })
-            @Html.ValidationMessageFor(m => m.QuoteText, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label class="control-label">Quote Text</label>
+                @Html.TextAreaFor(m => m.QuoteText, new { @class = "form-control form-control-sm", @required = "Required", AutoComplete = "off", rows = "5" })
+                @Html.ValidationMessageFor(m => m.QuoteText, "", new { @class = "text-danger col-form-label" })
+            </div>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="control-label">Text Position</label>
-            @Html.DropDownListFor(m => m.Position, new List<SelectListItem>
-{
-                  new SelectListItem { Text = "Top Left", Value = "Top Left"},
-                  new SelectListItem { Text = "Top Center", Value = "Top Center"},
-                  new SelectListItem { Text = "Top Right", Value = "Top Right"},
-                  new SelectListItem { Text = "Center", Value = "Center", Selected=true},
-                  new SelectListItem { Text = "Bottom Left", Value = "Bottom Left"},
-                  new SelectListItem { Text = "Bottom Center", Value = "Bottom Center"},
-                  new SelectListItem { Text = "Bottom Right", Value = "Bottom Right"}
-            }, "Select Position")
-            @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Text Position</label>
+                @Html.DropDownListFor(m => m.Position, (IEnumerable<SelectListItem>)ViewBag.QuotesPosition, new { @class = "form-control form-control-sm", @required = "Required" })
+                @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger col-form-label" })
 
+            </div>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="control-label">Category</label>
-            @Html.TextBoxFor(m => m.PostCategory, new { @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Category</label>
+                @Html.DropDownListFor(m => m.PostCategory, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "form-control form-control-sm", @required = "Required" })
+                @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })
+                @*@Html.TextBoxFor(m => m.PostCategory, new { @class = "form-control form-control-sm", @required = "Required" })
+                    @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })*@
+            </div>
         </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="control-label">Text Size</label>
-            @Html.TextBoxFor(m => m.FontSize, new { @type = "number", @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.FontSize, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label class="control-label">Text Size</label>
+                @Html.TextBoxFor(m => m.FontSize, new { @type = "number", @class = "form-control form-control-sm", @required = "Required" })
+                @Html.ValidationMessageFor(m => m.FontSize, "", new { @class = "text-danger col-form-label" })
+            </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label class="control-label">Tags (Comma seprated)</label>
-            @Html.TextBoxFor(m => m.Tags, new { @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.Tags, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Tags</label>
+                @Html.DropDownListFor(m => m.Tags, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "form-control tag-tokenizer form-control-sm", @multiple = "multiple" })
+                @Html.ValidationMessageFor(m => m.Tags, "", new { @class = "text-danger col-form-label" })
+            </div>
         </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label class="control-label">Text Color</label>
-            @Html.TextBoxFor(m => m.FontColor, new { @type = "color", @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.FontColor, "", new { @class = "text-danger col-form-label" })
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="control-label">Text Color</label>
+                @Html.TextBoxFor(m => m.FontColor, new { @type = "color", @class = "form-control form-control-sm", @required = "Required" })
+                @Html.ValidationMessageFor(m => m.FontColor, "", new { @class = "text-danger col-form-label" })
+            </div>
         </div>
-    </div>
 
-</div>
-                <div class="modal-footer">
-                    <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>}
+    </div>
+    <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
+}
+
+@section scripts{
+    <script type="text/javascript">
+
+        $("#btnSave").on("click", function () {
+            var TagsValue = $("#Tags").val().join(',');
+            $("#Tags").val($("#Tags").val().join(','));
+            alert(TagsValue);
+            alert($("#Tags").val());
+        })
+    </script>
+}

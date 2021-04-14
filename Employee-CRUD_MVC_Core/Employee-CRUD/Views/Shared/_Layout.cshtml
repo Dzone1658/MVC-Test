@@ -144,6 +144,11 @@
                 $(this).addClass('active');
             }
         });
+
+        $(".tag-tokenizer").select2({
+            tags: true,
+            tokenSeparators: [',']
+        })
     </script>
 </body>
 </html>

@@ -2,27 +2,33 @@
 using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Filter;
 using Employee_CRUD.Models;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Employee_CRUD.Controllers
 {
-    [TypeFilter(typeof(CustomAuthorizationFilterAttribute))]
+    //[TypeFilter(typeof(CustomAuthorizationFilterAttribute))]
     public class QuotesController : Controller
     {
         [Obsolete]
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IQuotesBll _quotesBll;
+        private readonly ICategoryBll _categoryBll;
 
         [Obsolete]
-        public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll)
+        public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll, ICategoryBll categoryBll)
         {
             _hostingEnvironment = hostingEnvironment;
             _quotesBll = quotesBll;
+            _categoryBll = categoryBll;
         }
 
         public IActionResult Index()
@@ -32,6 +38,17 @@ namespace Employee_CRUD.Controllers
 
         public IActionResult ManageQuotes()
         {
+            ViewBag.Category = _categoryBll.GetAllCategories();
+            ViewBag.QuotesPosition = new List<SelectListItem>
+            {
+                  new SelectListItem { Text = "Top Left", Value = "Top Left"},
+                  new SelectListItem { Text = "Top Center", Value = "Top Center"},
+                  new SelectListItem { Text = "Top Right", Value = "Top Right"},
+                  new SelectListItem { Text = "Center", Value = "Center", Selected=true},
+                  new SelectListItem { Text = "Bottom Left", Value = "Bottom Left"},
+                  new SelectListItem { Text = "Bottom Center", Value = "Bottom Center"},
+                  new SelectListItem { Text = "Bottom Right", Value = "Bottom Right"}
+            };
             return View();
         }
 

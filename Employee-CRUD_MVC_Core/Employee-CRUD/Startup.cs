@@ -44,6 +44,7 @@ namespace Employee_CRUD
             services.AddTransient<IQuotesBll, QuotesBll>();
             services.AddTransient<IAccountBll, AccountBll>();
             services.AddTransient<ISessionHelper, SessionHelper>();
+            services.AddTransient<ICategoryBll, CategoryBll>();
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddHttpContextAccessor();
         }
