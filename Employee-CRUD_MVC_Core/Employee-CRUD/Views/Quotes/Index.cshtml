@@ -1,74 +1,172 @@
-﻿
-@model Employee_CRUD.Models.ManagePostModel
+﻿@model Employee_CRUD.Models.ManagePostModel
+@{
+    ViewBag.Title = "Index";
+}
 
-
-@using (Html.BeginForm("ManageQuotes", "Quotes", FormMethod.Post, new { @id = "ManageQuotes", @enctype = "multipart/form-data" }))
-{
-<div class="row">
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label class="control-label">Select Image</label>
-            @Html.TextBoxFor(m => m.ImageContent, new { @type = "file", @class = "form-control  form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.ImageContent, "", new { @class = "text-danger col-form-label" })
+<div class="card">
+    <div class="card-header">
+        <h2 class="card-title">All Post</h2>
+        <div class="card-tools">
+            <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addPostModal"> Add New Post</button>
         </div>
     </div>
-    <div class="col-sm-12">
-        <div class="form-group">
-            <label class="control-label">Quote Text</label>
-            @Html.TextAreaFor(m => m.QuoteText, new { @class = "form-control form-control-sm", @required = "Required", AutoComplete = "off", rows = "10" })
-            @Html.ValidationMessageFor(m => m.QuoteText, "", new { @class = "text-danger col-form-label" })
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="control-label">Text Position</label>
-            @Html.DropDownListFor(m => m.Position, new List<SelectListItem>
-{
-                  new SelectListItem { Text = "Top Left", Value = "Top Left"},
-                  new SelectListItem { Text = "Top Center", Value = "Top Center"},
-                  new SelectListItem { Text = "Top Right", Value = "Top Right"},
-                  new SelectListItem { Text = "Center", Value = "Center", Selected=true},
-                  new SelectListItem { Text = "Bottom Left", Value = "Bottom Left"},
-                  new SelectListItem { Text = "Bottom Center", Value = "Bottom Center"},
-                  new SelectListItem { Text = "Bottom Right", Value = "Bottom Right"}
-            }, "Select Position")
-            @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger col-form-label" })
-
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label class="control-label">Category</label>
-            @Html.TextBoxFor(m => m.PostCategory, new { @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label class="control-label">Tags (Comma seprated)</label>
-            @Html.TextBoxFor(m => m.Tags, new { @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.Tags, "", new { @class = "text-danger col-form-label" })
-        </div>
-    </div>
-    <div class="col-sm-2">
-        <div class="form-group">
-            <label class="control-label">Text Size</label>
-            @Html.TextBoxFor(m => m.FontSize, new { @type = "number", @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.FontSize, "", new { @class = "text-danger col-form-label" })
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tblPosts" class="table table-striped table-bordered table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Text</th>
+                        <th>Tags</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
     </div>
 
-    <div class="col-sm-4">
-        <div class="form-group">
-            <label class="control-label">Text Color</label>
-            @Html.TextBoxFor(m => m.FontColor, new { @type = "color", @class = "form-control form-control-sm", @required = "Required" })
-            @Html.ValidationMessageFor(m => m.FontColor, "", new { @class = "text-danger col-form-label" })
+
+    <!-- Modal -->
+    <div class="modal fade" id="addPostModal" role="dialog" aria-hidden="true" style="overflow:hidden;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @using (Html.BeginForm("ManageQuotes", "Quotes", FormMethod.Post, new { @id = "ManageQuotes", @enctype = "multipart/form-data" }))
+                {
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Select Image</label>
+                                    @Html.TextBoxFor(m => m.ImageContent, new { @type = "file", @class = "form-control  form-control-sm", @required = "Required" })
+                                    @Html.ValidationMessageFor(m => m.ImageContent, "", new { @class = "text-danger col-form-label" })
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="control-label">Quote Text</label>
+                                    @Html.TextAreaFor(m => m.QuoteText, new { @class = "form-control form-control-sm", @required = "Required", AutoComplete = "off", rows = "5" })
+                                    @Html.ValidationMessageFor(m => m.QuoteText, "", new { @class = "text-danger col-form-label" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Text Position</label>
+                                    @Html.DropDownListFor(m => m.Position, (IEnumerable<SelectListItem>)ViewBag.QuotesPosition, new { @class = "form-control form-control-sm", @required = "Required" })
+                                    @Html.ValidationMessageFor(m => m.Position, "", new { @class = "text-danger col-form-label" })
+
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Category</label>
+                                    @Html.DropDownListFor(m => m.PostCategory, (IEnumerable<SelectListItem>)ViewBag.Category, new { @class = "form-control form-control-sm", @required = "Required" })
+                                    @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })
+                                    @*@Html.TextBoxFor(m => m.PostCategory, new { @class = "form-control form-control-sm", @required = "Required" })
+                                        @Html.ValidationMessageFor(m => m.PostCategory, "", new { @class = "text-danger col-form-label" })*@
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label class="control-label">Text Size</label>
+                                    @Html.TextBoxFor(m => m.FontSize, new { @type = "number", @class = "form-control form-control-sm", @required = "Required" })
+                                    @Html.ValidationMessageFor(m => m.FontSize, "", new { @class = "text-danger col-form-label" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Tags</label>
+                                    @Html.DropDownListFor(m => m.Tags, (IEnumerable<SelectListItem>)ViewBag.Tags, new { @class = "form-control tag-tokenizer form-control-sm", @multiple = "multiple" })
+                                    @Html.ValidationMessageFor(m => m.Tags, "", new { @class = "text-danger col-form-label" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label class="control-label">Text Color</label>
+                                    @Html.TextBoxFor(m => m.FontColor, new { @type = "color", @class = "form-control form-control-sm", @required = "Required" })
+                                    @Html.ValidationMessageFor(m => m.FontColor, "", new { @class = "text-danger col-form-label" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Post Quote</button>
+                    </div>
+                }
+            </div>
         </div>
     </div>
 
 </div>
-    <div class="modal-footer">
-        <button type="submit" id="btnSave" class="btn btn-primary">Save</button>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    </div>
+@section scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getPost();
+        });
+
+        $(document).on("click", ".post-delete", function () {
+            var postID = $(this).data("id");
+            deleteRecord(function (result) {
+                if (result) {
+                    $.ajax({
+                        url: "/Quotes/DeletePostByPostID?PostId=" + postID,
+                        type: 'Get',
+                        data: postID,
+                        success: function (result) {
+                            if (result.result.isSuccess) {
+                                Toastr("success", result.result.message);
+                                oTable.ajax.reload();
+                            }
+                        }
+                    });
+                }
+            });
+        });
+
+        var oTable;
+        function getPost() {
+            oTable = $("#tblPosts").DataTable({
+                "bServerSide": true,
+                "bSearchable": true,
+                "bPaginate": true,
+                "order": [[1, 'asc']],
+                "language": {
+                    "emptyTable": "No record found.",
+                    "processing":
+                        '<i class="fa fa-spinner fa-spin fa-3x fa-fw" style="color:#2a2b2b;"></i><span class="sr-only">Loading...</span> '
+                },
+                "sAjaxSource": "/Quotes/GetUserPost",
+
+                "columns": [
+                    {
+                        "data": "imageName",
+                        "render": function (data, type, full, meta) {
+                            return '<img style="height:100px;width:100px" src="/Assets/Image/QuotesData/' + data + '">'
+                        }
+                    },
+                    { "data": "quoteText" },
+                    { "data": "tags" },
+                    { "data": "postCategory" },
+                    {
+                        "data": "postID",
+                        "render": function (data, type, full, meta) {
+                            return '<a data-id=' + data + ' class="btn btn-sm btn-danger post-delete">Delete</a>'
+                        }
+                    },
+                ]
+            });
+        }
+
+    </script>
 }

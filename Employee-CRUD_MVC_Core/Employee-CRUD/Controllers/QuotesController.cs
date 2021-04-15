@@ -21,24 +21,22 @@ namespace Employee_CRUD.Controllers
         [Obsolete]
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly IQuotesBll _quotesBll;
+        private readonly ITagsBll _tagsBll;
         private readonly ICategoryBll _categoryBll;
 
         [Obsolete]
-        public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll, ICategoryBll categoryBll)
+        public QuotesController(IHostingEnvironment hostingEnvironment, IQuotesBll quotesBll, ICategoryBll categoryBll, ITagsBll tagsBll)
         {
             _hostingEnvironment = hostingEnvironment;
             _quotesBll = quotesBll;
             _categoryBll = categoryBll;
+            _tagsBll = tagsBll;
         }
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult ManageQuotes()
-        {
             ViewBag.Category = _categoryBll.GetAllCategories();
+            ViewBag.Tags = _tagsBll.GetAllTagsByUserID();
             ViewBag.QuotesPosition = new List<SelectListItem>
             {
                   new SelectListItem { Text = "Top Left", Value = "Top Left"},
@@ -51,7 +49,6 @@ namespace Employee_CRUD.Controllers
             };
             return View();
         }
-
         [HttpPost]
         [Obsolete]
         public async Task<IActionResult> ManageQuotes(ManagePostModel sampleImageModel)

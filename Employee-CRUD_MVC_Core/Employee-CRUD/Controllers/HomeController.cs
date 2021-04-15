@@ -18,10 +18,7 @@ namespace Employee_CRUD.Controllers
         {
             return View(_quotesBll.GetAllPosts().Result);
         }
-        public IActionResult MyPost()
-        {
-            return View();
-        }
+        
 
     }
 }

@@ -14,5 +14,6 @@ namespace Employee_CRUD.Data.Entities
         public int PostTagsID { get; set; }
         public int TagID { get; set; }
         public int PostID { get; set; }
+        public string UserID { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace Employee_CRUD.Models
     {
         public string QuoteText { get; set; }
         public string Position { get; set; }
-        public string Tags { get; set; }
+        public List<string> Tags { get; set; }
         public int FontSize { get; set; }
         public string FontColor { get; set; }
         public int PostCategory { get; set; }

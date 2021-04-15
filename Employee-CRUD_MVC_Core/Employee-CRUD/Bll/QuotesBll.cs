@@ -16,11 +16,13 @@ namespace Employee_CRUD.Bll
     {
         private readonly IConfiguration _configuration;
         private readonly ISessionHelper _sessionHelper;
+        private readonly ITagsBll _tagsBll;
 
-        public QuotesBll(DataContext context, IConfiguration configuration, ISessionHelper sessionHelper) : base(context)
+        public QuotesBll(DataContext context, IConfiguration configuration, ISessionHelper sessionHelper, ITagsBll tagsBll) : base(context)
         {
             _configuration = configuration;
             _sessionHelper = sessionHelper;
+            _tagsBll = tagsBll;
         }
 
         public ResultBase<List<PostViewModel>> GetAllPosts()
@@ -118,13 +120,15 @@ namespace Employee_CRUD.Bll
                     CategoryID = managePostModel.PostCategory,
                     PostedDateTime = DateTime.Now,
                     QuoteText = managePostModel.QuoteText,
-                    Tags = managePostModel.Tags,
                     IsActive = true,
                     UserName = Session.UserName,
                     UserID = Session.UserID
                 };
+
                 Add(publicPost);
                 Save();
+
+                _tagsBll.AddEditTags(managePostModel.Tags, publicPost.PostID);
                 result.Result = managePostModel;
                 result.Message = "Your Record has been Saved";
             }
