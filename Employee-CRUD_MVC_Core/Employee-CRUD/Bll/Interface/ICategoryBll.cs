@@ -9,6 +9,7 @@ namespace Employee_CRUD.Bll.Interface
 {
     public interface ICategoryBll: IBaseRepository<TBL_Category>
     {
-        List<SelectListItem> GetAllCategories();
+        List<SelectListItem> GetAllCategoriesDropDown();
+        List<TBL_Category> GetAllCategories();
     }
 }

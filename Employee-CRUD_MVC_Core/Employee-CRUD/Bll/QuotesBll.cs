@@ -16,12 +16,14 @@ namespace Employee_CRUD.Bll
     {
         private readonly IConfiguration _configuration;
         private readonly ISessionHelper _sessionHelper;
+        private readonly ICategoryBll _categoryBll;
         private readonly ITagsBll _tagsBll;
 
-        public QuotesBll(DataContext context, IConfiguration configuration, ISessionHelper sessionHelper, ITagsBll tagsBll) : base(context)
+        public QuotesBll(DataContext context, IConfiguration configuration, ISessionHelper sessionHelper, ITagsBll tagsBll, ICategoryBll categoryBll) : base(context)
         {
             _configuration = configuration;
             _sessionHelper = sessionHelper;
+            _categoryBll = categoryBll;
             _tagsBll = tagsBll;
         }
 
@@ -31,11 +33,12 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
+                var Category = _categoryBll.GetAllCategories();
                 PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
                     ImageName = x.ImageName,
-                    PostCategory = x.PostID,
+                    PostCategory = Category.Where(x=> x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
                     UserName = x.UserName,
@@ -57,12 +60,13 @@ namespace Employee_CRUD.Bll
             List<PostViewModel> PostList = new();
             try
             {
+                var Category = _categoryBll.GetAllCategories();
                 string UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
                 PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
                 {
                     PostID = x.PostID,
                     ImageName = x.ImageName,
-                    PostCategory = x.PostID,
+                    PostCategory = Category.Where(x => x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
                     QuoteText = x.QuoteText,
                     Tags = x.Tags,
                     UserName = UserGUIDString,

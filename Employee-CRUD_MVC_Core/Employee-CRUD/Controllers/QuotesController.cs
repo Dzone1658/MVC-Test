@@ -35,7 +35,7 @@ namespace Employee_CRUD.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Category = _categoryBll.GetAllCategories();
+            ViewBag.Category = _categoryBll.GetAllCategoriesDropDown();
             ViewBag.Tags = _tagsBll.GetAllTagsByUserID();
             ViewBag.QuotesPosition = new List<SelectListItem>
             {

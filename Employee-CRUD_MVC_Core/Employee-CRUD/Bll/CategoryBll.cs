@@ -16,7 +16,7 @@ namespace Employee_CRUD.Bll
         public CategoryBll(DataContext context) : base(context)
         {
         }
-        public List<SelectListItem> GetAllCategories()
+        public List<SelectListItem> GetAllCategoriesDropDown()
         {
             List<SelectListItem> ListOfCategories = new();
             try
@@ -26,6 +26,20 @@ namespace Employee_CRUD.Bll
                     Text = x.PostCategoryName,
                     Value = x.CategoryID.ToString()
                 }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return ListOfCategories;
+        }
+
+        public List<TBL_Category> GetAllCategories()
+        {
+            List<TBL_Category> ListOfCategories = new();
+            try
+            {
+                ListOfCategories = GetAll().Where(x => x.IsActive = true).ToList();
             }
             catch (Exception ex)
             {

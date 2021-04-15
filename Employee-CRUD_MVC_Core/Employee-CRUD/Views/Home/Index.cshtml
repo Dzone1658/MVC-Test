@@ -3,22 +3,33 @@
     ViewBag.Title = "Index";
 }
 
+<style>
+    .card-img-top {
+        width: 100%;
+        height: 20vw;
+        object-fit: cover;
+    }
+</style>
 
 <div class="row">
     @foreach (var item in Model)
     {
         <div class="col-md-4">
             <div class="card">
-                <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top" alt="@item.QuoteText">
+                <div class="card-header">
+                    <a class="stretched-link" href="#">@item.UserName</a>
+                    <p class="blockquote-footer float-right">@item.PostedDateTime.ToString("dd MMM yyyy hh:mm tt") </p>
+                </div>
+                <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top post-card" alt="@item.QuoteText">
                 <div class="card-body">
-                    <h5 class="card-title text-bold">@item.UserName</h5>
-                    <p class="card-text">
-                        @if(item.QuoteText.Length > 100)
-                            @item.QuoteText.Substring(0, 100)
-                        else
-                            @item.QuoteText
-                    </p>
-                    <footer class="blockquote-footer">@item.PostedDateTime.ToString("dd MMM yyyy hh:mm tt") </footer>
+                    @*<p class="card-text">
+                            @if (item.QuoteText.Length > 100)
+                                @item.QuoteText.Substring(0, 100)
+                                else
+                                    @item.QuoteText
+                        </p>*@
+                    <p class="stretched-link">#Example #Tags</p>
+                    <footer> <i class="fa fa-heart"></i> <i class="fa fa-download"></i> <i class="fa fa-share"></i>  </footer>
                 </div>
             </div>
         </div>
