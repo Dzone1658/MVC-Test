@@ -23,6 +23,11 @@
 
 </head>
 <body class="hold-transition layout-top-nav">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" id="loadingDiv" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
@@ -146,6 +151,14 @@
             tags: true,
             tokenSeparators: [',']
         })
+        var $loading = $('#loadingDiv').hide();
+        $(document)
+            .ajaxStart(function () {
+                $loading.show();
+            })
+            .ajaxStop(function () {
+                $loading.hide();
+            });
     </script>
 </body>
 </html>

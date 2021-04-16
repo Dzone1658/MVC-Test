@@ -46,7 +46,42 @@ namespace Employee_CRUD.Bll
             return ListOfTags;
         }
 
-        public void AddEditTags(List<string> TagsList,int postID)
+        public List<TBL_Tags> GetAllTags()
+        {
+            List<TBL_Tags> ListOfTags = new();
+            try
+            {
+                ListOfTags = _dataContext.TBL_Tags.Where(x => x.IsActive).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return ListOfTags;
+        }
+
+        public List<TBL_Tags> GetAllTagsByPostID(int PostID)
+        {
+
+            List<TBL_Tags> ListOfTags = new();
+            try
+            {
+                ListOfTags = _dataContext.TBL_PostTags.Where(x => x.PostID == PostID && x.IsActive).Join(_dataContext.TBL_Tags, pt => pt.TagID, x => x.TagID,
+                    (pt, x) => new TBL_Tags
+                    {
+                        TagID = x.TagID,
+                        TagName = x.TagName,
+                        IsActive = x.IsActive
+                    }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            return ListOfTags;
+
+        }
+        public void AddEditTags(List<string> TagsList, int postID)
         {
             string UserID = _sessionHelper.GetDecodedSession().UserID;
             var TagsListCopy = TagsList.ToList();
@@ -77,7 +112,7 @@ namespace Employee_CRUD.Bll
                 TBL_PostTags tBL_PostTags = new();
                 tBL_PostTags.IsActive = true;
                 tBL_PostTags.PostID = postID;
-                tBL_PostTags.TagID = AllTags.Where(x=>x.TagName.ToLower() == item.ToLower()).FirstOrDefault().TagID;
+                tBL_PostTags.TagID = AllTags.Where(x => x.TagName.ToLower() == item.ToLower()).FirstOrDefault().TagID;
                 tBL_PostTags.UserID = UserID;
                 _dataContext.TBL_PostTags.Add(tBL_PostTags);
                 _dataContext.SaveChanges();

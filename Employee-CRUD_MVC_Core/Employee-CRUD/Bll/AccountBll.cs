@@ -33,7 +33,7 @@ namespace Employee_CRUD.Bll
             {
                 var parameters = new Dictionary<string, string> { { "username", loginViewModel.Email }, { "password", loginViewModel.Password } };
                 var content = new StringContent(JsonConvert.SerializeObject(parameters), Encoding.UTF8, "application/json");
-                client.BaseAddress = new Uri(Resources.LoginUrl);
+                //client.BaseAddress = new Uri(Resources.LoginUrl);
                 client.DefaultRequestHeaders.Accept.Clear();
                 HttpResponseMessage response = await client.PostAsync(Resources.LoginUrl, content);
                 if (response.IsSuccessStatusCode)

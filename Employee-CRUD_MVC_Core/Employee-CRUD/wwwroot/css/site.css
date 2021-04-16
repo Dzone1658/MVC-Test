@@ -7,9 +7,16 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+#loadingDiv {
+    z-index: 1000;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    padding: 2px;
+}
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {

@@ -20,16 +20,22 @@
                     <a class="stretched-link" href="#">@item.UserName</a>
                     <p class="blockquote-footer float-right">@item.PostedDateTime.ToString("dd MMM yyyy hh:mm tt") </p>
                 </div>
-                <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top post-card" alt="@item.QuoteText">
+                <img src="~/Assets/Image/QuotesData/@item.ImageName" class="card-img-top post-card" alt="@item.QuoteText" title="@item.QuoteText">
                 <div class="card-body">
-                    @*<p class="card-text">
-                            @if (item.QuoteText.Length > 100)
-                                @item.QuoteText.Substring(0, 100)
-                                else
-                                    @item.QuoteText
-                        </p>*@
-                    <p class="stretched-link">#Example #Tags</p>
-                    <footer> <i class="fa fa-heart"></i> <i class="fa fa-download"></i> <i class="fa fa-share"></i>  </footer>
+                    <p class="card-text">
+                        @foreach (var TagItems in item.Tags)
+                        {
+                            <span class'stretched-link'>#@TagItems </span>
+                        }
+                    </p>
+                    <footer>
+                        <div class="row">
+                            <div class="col-3 text-center"><i class="fa fa-heart"></i></div>
+                            <div class="col-3 text-center"><a href="@Url.Action("DownloadFiles", "Home", new { filename = item.ImageName })"><i class="fa fa-download"></i></a></div>
+                            <div class="col-3 text-center"><a class="share-post" data-filename="@item.ImageName"><i class="fa fa-share"></i></a></div>
+                            <div class="col-3 text-center"><a class="share-post-wa" data-filename="@item.ImageName"><i class="fa fa-clipboard"></i></a></div>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
@@ -43,5 +49,36 @@
         $(document).ready(function () {
 
         });
+        $(document).on("click", ".share-post", function () {
+            var FileName = $(this).data("filename");
+            $.ajax({
+                url: "/Home/ShortenLink?FileName=" + FileName,
+                type: 'Get',
+                success: function (result) {
+                    if (result) {
+                        navigator.clipboard.writeText(result.shortenLink).then(function () {
+                            Toastr("success", "Share link copied to your clipboard!");
+                        }, function (err) {
+                            Toastr("warning", "Share link not generate!");
+                        });
+                    }
+                }
+            });
+        });
+
+        $(document).on("click", ".share-post-wa", function () {
+            var FileName = $(this).data("filename");
+            $.ajax({
+                url: "/Home/ShortenLink?FileName=" + FileName,
+                type: 'Get',
+                success: function (result) {
+                    if (result) {
+                        var URL = "https://web.whatsapp.com/send?text=" + result.shortenLink;
+                        window.open(URL, '_blank');
+                    }
+                }
+            });
+        });
+
     </script>
 }

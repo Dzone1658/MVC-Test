@@ -34,16 +34,24 @@ namespace Employee_CRUD.Bll
             try
             {
                 var Category = _categoryBll.GetAllCategories();
-                PostList = GetAll().Where(x => x.IsActive = true).Select(x => new PostViewModel
+                var PostData = GetAll().Where(x => x.IsActive).ToList();
+                foreach (var item in PostData)
                 {
-                    PostID = x.PostID,
-                    ImageName = x.ImageName,
-                    PostCategory = Category.Where(x=> x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
-                    QuoteText = x.QuoteText,
-                    Tags = x.Tags,
-                    UserName = x.UserName,
-                    PostedDateTime=x.PostedDateTime
-                }).OrderByDescending(x=>x.PostedDateTime).ToList();
+                    List<string> PostTagsList = _tagsBll.GetAllTagsByPostID(item.PostID).Select(x => x.TagName).ToList();
+                    PostViewModel postViewModel = new()
+                    {
+                        PostID = item.PostID,
+                        ImageName = item.ImageName,
+                        PostCategory = Category.Where(x => x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
+                        QuoteText = item.QuoteText,
+                        Tags = PostTagsList,
+                        UserName = item.UserName,
+                        PostedDateTime = item.PostedDateTime
+                    };
+                    PostList.Add(postViewModel);
+                }
+
+                PostList = PostList.OrderByDescending(x=>x.PostedDateTime).ToList();
             }
             catch (Exception ex)
             {
@@ -62,16 +70,22 @@ namespace Employee_CRUD.Bll
             {
                 var Category = _categoryBll.GetAllCategories();
                 string UserGUIDString = _sessionHelper.GetDecodedSession().UserID;
-                PostList = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).Select(x => new PostViewModel
+                var PostData = GetAll().Where(x => x.IsActive = true && x.UserID == UserGUIDString).ToList();
+                foreach (var item in PostData)
                 {
-                    PostID = x.PostID,
-                    ImageName = x.ImageName,
-                    PostCategory = Category.Where(x => x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
-                    QuoteText = x.QuoteText,
-                    Tags = x.Tags,
-                    UserName = UserGUIDString,
-                    PostedDateTime = x.PostedDateTime
-                }).ToList();
+                    List<string> PostTagsList = _tagsBll.GetAllTagsByPostID(item.PostID).Select(x => x.TagName).ToList();
+                    PostViewModel postViewModel = new()
+                    {
+                        PostID = item.PostID,
+                        ImageName=item.ImageName,
+                        PostCategory= Category.Where(x => x.CategoryID == x.CategoryID).FirstOrDefault().PostCategoryName,
+                        QuoteText=item.QuoteText,
+                        Tags=PostTagsList,
+                        UserName=item.UserName,
+                        PostedDateTime=item.PostedDateTime
+                    };
+                    PostList.Add(postViewModel);
+                }
             }
             catch (Exception ex)
             {

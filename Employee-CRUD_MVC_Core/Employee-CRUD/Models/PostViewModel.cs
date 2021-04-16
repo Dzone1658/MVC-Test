@@ -9,7 +9,7 @@ namespace Employee_CRUD.Models
     {
         public int PostID { get; set; }
         public string QuoteText { get; set; }
-        public string Tags { get; set; }
+        public List<string> Tags { get; set; }
         public string PostCategory { get; set; }
         public string ImageName { get; set; }
         public string UserName { get; set; }
