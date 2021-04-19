@@ -4,7 +4,7 @@ using Employee_CRUD.Models;
 
 namespace Employee_CRUD.Bll.Interface
 {
-    public interface IQuotesBll : IBaseRepository<TBL_PublicPost>
+    public interface IQuotesBll
     {
         ResultBase<List<string>> DeletePostByPostID(int PostID);
 
@@ -12,6 +12,6 @@ namespace Employee_CRUD.Bll.Interface
 
         ResultBase<List<PostViewModel>> GetAllUserPosts();
 
-        ResultBase<ManagePostModel> Upsert(ManagePostModel managePostModel);
+        ResultBase<ManagePostModel> AddUpdatePublicPost(ManagePostModel managePostModel);
     }
 }

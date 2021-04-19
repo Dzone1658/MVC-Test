@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-
-using Employee_CRUD.Bll.Interface;
-using Employee_CRUD.Data.Context;
+﻿using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Entities;
-using Employee_CRUD.Models;
 using Employee_CRUD.Utils.Interface;
-
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 
 namespace Employee_CRUD.Bll
 {
     public class TagsBll : ITagsBll
     {
         private readonly ISessionHelper _sessionHelper;
-        private readonly DataContext _dataContext;
+        private readonly IConfiguration _configuration;
 
-        public TagsBll(DataContext dataContext, ISessionHelper sessionHelper)
+        public TagsBll(ISessionHelper sessionHelper, IConfiguration configuration)
         {
             _sessionHelper = sessionHelper;
-            _dataContext = dataContext;
+            _configuration = configuration;
         }
 
         public List<SelectListItem> GetAllTagsByUserID()
@@ -32,12 +28,28 @@ namespace Employee_CRUD.Bll
             string UserID = _sessionHelper.GetDecodedSession().UserID;
             try
             {
-                ListOfTags = _dataContext.TBL_PostTags.Where(x => x.UserID == UserID && x.IsActive).Join(_dataContext.TBL_Tags, pt => pt.TagID, x => x.TagID,
-                    (pt, x) => new SelectListItem
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    //Change SP Name
+                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
                     {
-                        Text = x.TagName,
-                        Value = x.TagName,
-                    }).ToList();
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@UserID", UserID);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                SelectListItem Tags = new();
+                                if (!reader["TagName"].Equals(DBNull.Value))
+                                {
+                                    Tags.Text = Convert.ToString(reader["TagName"]);
+                                    Tags.Value = Convert.ToString(reader["TagName"]);
+                                }
+                                ListOfTags.Add(Tags);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -51,7 +63,28 @@ namespace Employee_CRUD.Bll
             List<TBL_Tags> ListOfTags = new();
             try
             {
-                ListOfTags = _dataContext.TBL_Tags.Where(x => x.IsActive).ToList();
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    //Change SP Name
+                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                TBL_Tags tBL_Tags = new();
+                                if (!reader["TagID"].Equals(DBNull.Value))
+                                    tBL_Tags.TagID = Convert.ToInt32(reader["TagID"]);
+                                if (!reader["IsActive"].Equals(DBNull.Value))
+                                    tBL_Tags.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                                if (!reader["TagName"].Equals(DBNull.Value))
+                                    tBL_Tags.TagName = Convert.ToString(reader["TagName"]);
+                                ListOfTags.Add(tBL_Tags);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -66,13 +99,29 @@ namespace Employee_CRUD.Bll
             List<TBL_Tags> ListOfTags = new();
             try
             {
-                ListOfTags = _dataContext.TBL_PostTags.Where(x => x.PostID == PostID && x.IsActive).Join(_dataContext.TBL_Tags, pt => pt.TagID, x => x.TagID,
-                    (pt, x) => new TBL_Tags
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    //Change SP Name
+                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
                     {
-                        TagID = x.TagID,
-                        TagName = x.TagName,
-                        IsActive = x.IsActive
-                    }).ToList();
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@PostID", PostID);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                TBL_Tags tBL_Tags = new();
+                                if (!reader["TagID"].Equals(DBNull.Value))
+                                    tBL_Tags.TagID = Convert.ToInt32(reader["TagID"]);
+                                if (!reader["IsActive"].Equals(DBNull.Value))
+                                    tBL_Tags.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                                if (!reader["TagName"].Equals(DBNull.Value))
+                                    tBL_Tags.TagName = Convert.ToString(reader["TagName"]);
+                                ListOfTags.Add(tBL_Tags);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -85,7 +134,7 @@ namespace Employee_CRUD.Bll
         {
             string UserID = _sessionHelper.GetDecodedSession().UserID;
             var TagsListCopy = TagsList.ToList();
-            var AllTags = _dataContext.TBL_Tags.Where(x => x.IsActive);
+            var AllTags = GetAllTags();
             foreach (var item in TagsListCopy)
             {
                 var Tags = AllTags.Where(x => x.TagName.ToLower() == item.ToLower()).FirstOrDefault();
@@ -98,24 +147,38 @@ namespace Employee_CRUD.Bll
 
             foreach (var item in TagsList)
             {
-                TBL_Tags tBL_Tags = new();
-                tBL_Tags.IsActive = true;
-                tBL_Tags.TagName = item;
-                _dataContext.TBL_Tags.Add(tBL_Tags);
-                _dataContext.SaveChanges();
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    //change SP Name
+                    using (SqlCommand cmd = new SqlCommand("", sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@TagName", item);
+                        cmd.Parameters.AddWithValue("@IsActive", true);
+                        int PostID = cmd.ExecuteNonQuery();
+                    }
+                }
             }
 
-            AllTags = _dataContext.TBL_Tags.Where(x => x.IsActive);
+            AllTags = GetAllTags();
 
             foreach (var item in TagsListCopy)
             {
-                TBL_PostTags tBL_PostTags = new();
-                tBL_PostTags.IsActive = true;
-                tBL_PostTags.PostID = postID;
-                tBL_PostTags.TagID = AllTags.Where(x => x.TagName.ToLower() == item.ToLower()).FirstOrDefault().TagID;
-                tBL_PostTags.UserID = UserID;
-                _dataContext.TBL_PostTags.Add(tBL_PostTags);
-                _dataContext.SaveChanges();
+                int TagID = AllTags.Where(x => x.TagName.ToLower() == item.ToLower()).FirstOrDefault().TagID;
+
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    //change SP Name
+                    using (SqlCommand cmd = new SqlCommand("", sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@TagName", item);
+                        cmd.Parameters.AddWithValue("@PostID", postID);
+                        cmd.Parameters.AddWithValue("@TagID", postID);
+                        cmd.Parameters.AddWithValue("@UserID", UserID);
+                        int PostID = cmd.ExecuteNonQuery();
+                    }
+                }
             }
         }
     }

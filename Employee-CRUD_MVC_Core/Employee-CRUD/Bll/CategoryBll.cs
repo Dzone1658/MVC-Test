@@ -4,6 +4,8 @@ using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Models;
 
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 using System;
 using System.Collections.Generic;
@@ -11,21 +13,39 @@ using System.Linq;
 
 namespace Employee_CRUD.Bll
 {
-    public class CategoryBll: BaseRepository<TBL_Category>,ICategoryBll
+    public class CategoryBll: ICategoryBll
     {
-        public CategoryBll(DataContext context) : base(context)
+        private readonly IConfiguration _configuration;
+        public CategoryBll(IConfiguration configuration)
         {
+            _configuration = configuration;
         }
         public List<SelectListItem> GetAllCategoriesDropDown()
         {
             List<SelectListItem> ListOfCategories = new();
             try
             {
-                ListOfCategories = GetAll().Where(x => x.IsActive = true).Select(x => new SelectListItem
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
-                    Text = x.PostCategoryName,
-                    Value = x.CategoryID.ToString()
-                }).ToList();
+                    using (SqlCommand cmd = new SqlCommand("PR_GET_Categories", sqlConnection))
+                    {
+
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                SelectListItem Category = new();
+                                if (!reader["PostCategoryName"].Equals(DBNull.Value))
+                                    Category.Text = Convert.ToString(reader["PostCategoryName"]);
+                                if (!reader["CategoryID"].Equals(DBNull.Value))
+                                    Category.Value = Convert.ToString(reader["CategoryID"]);
+                                ListOfCategories.Add(Category);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -39,7 +59,27 @@ namespace Employee_CRUD.Bll
             List<TBL_Category> ListOfCategories = new();
             try
             {
-                ListOfCategories = GetAll().Where(x => x.IsActive = true).ToList();
+                using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
+                {
+                    using (SqlCommand cmd = new SqlCommand("PR_GET_Categories", sqlConnection))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                TBL_Category tBL_Category = new();
+                                if (!reader["CategoryID"].Equals(DBNull.Value))
+                                    tBL_Category.CategoryID = Convert.ToInt32(reader["CategoryID"]);
+                                if (!reader["IsActive"].Equals(DBNull.Value))
+                                    tBL_Category.IsActive = Convert.ToBoolean(reader["IsActive"]);
+                                if (!reader["PostCategoryName"].Equals(DBNull.Value))
+                                    tBL_Category.PostCategoryName = Convert.ToString(reader["PostCategoryName"]);
+                                ListOfCategories.Add(tBL_Category);
+                            }
+                        }
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -68,7 +68,7 @@ namespace Employee_CRUD.Controllers
                 //Select existing uploaded image
             }
             sampleImageModel.ImageName = DrawOverImageBll.DrawTextOverImage(sampleImageModel.QuoteText, FileSaveLocation, sampleImageModel.Position, sampleImageModel.FontColor, sampleImageModel.FontSize);
-            _quotesBll.Upsert(sampleImageModel);
+            _quotesBll.AddUpdatePublicPost(sampleImageModel);
             return RedirectToAction("Index", "Home");
         }
 
