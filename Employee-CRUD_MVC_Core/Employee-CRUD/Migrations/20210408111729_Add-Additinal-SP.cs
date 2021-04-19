@@ -20,7 +20,7 @@ namespace Employee_CRUD.Migrations
 			                 @PostID						int     OUTPUT
 			                ,@Tags				nvarchar(500)
 			                ,@ImageName				nvarchar(100)
-			                ,@UserID				int
+			                ,@UserID				nvarchar(100)
 			                ,@CategoryID			int
 			                ,@PostedDateTime			datetime
                 AS 
@@ -65,7 +65,7 @@ namespace Employee_CRUD.Migrations
 			                 @PostID			    int
 			                ,@Tags				    nvarchar(500)
 			                ,@ImageName				nvarchar(100)
-			                ,@UserID				int
+			                ,@UserID				nvarchar(100)
 			                ,@CategoryID			int
 			                ,@PostedDateTime		datetime
                 AS 
@@ -96,6 +96,8 @@ namespace Employee_CRUD.Migrations
                 END CATCH
                 END";
 
+            
+
             migrationBuilder.Sql(DeletePublicPost);
             migrationBuilder.Sql(InsertPublicPost);
             migrationBuilder.Sql(UpdatePublicPost);
@@ -103,7 +105,8 @@ namespace Employee_CRUD.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-
+            //string Drop = @" DROP TABLE [dbo].[PR_GET_PublicPost]";
+            //migrationBuilder.Sql(Drop);
         }
     }
 }
