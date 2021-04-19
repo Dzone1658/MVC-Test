@@ -1,13 +1,11 @@
-﻿using Employee_CRUD.Bll.Interface;
-using Employee_CRUD.Data.Entities;
-using Employee_CRUD.Utils.Interface;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Employee_CRUD.Bll.Interface;
+using Employee_CRUD.Data.Entities;
+using Employee_CRUD.Utils.Interface;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Employee_CRUD.Bll
 {
@@ -130,6 +128,7 @@ namespace Employee_CRUD.Bll
             return ListOfTags;
 
         }
+
         public void AddEditTags(List<string> TagsList, int postID)
         {
             string UserID = _sessionHelper.GetDecodedSession().UserID;
