@@ -20,18 +20,18 @@ namespace Employee_CRUD.Migrations
                     ELSE
                         SELECT * FROM [dbo].[TBL_PublicPost]
                 END";
-            
-            string GetCategory = @"
-                CREATE PROCEDURE [dbo].[PR_GET_Categories]
-	                @IsActive = 1
-                AS 
-                BEGIN
-                    SELECT * FROM [dbo].[TBL_Category] 
-                    WHERE IsActive = 1
-                END";
+
+            string getcategory = @"
+                create procedure [dbo].[pr_get_categories]
+	                @isactive = 1
+                as 
+                begin
+                    select * from [dbo].[tbl_category] 
+                    where isactive = 1
+                end";
 
             migrationBuilder.Sql(GetPosts);
-            migrationBuilder.Sql(GetCategory);
+            migrationBuilder.Sql(getcategory);
 
         }
 

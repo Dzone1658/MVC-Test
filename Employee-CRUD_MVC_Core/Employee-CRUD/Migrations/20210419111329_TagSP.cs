@@ -17,8 +17,8 @@ namespace Employee_CRUD.Migrations
             string InsertTag = @"
                 CREATE PROCEDURE [dbo].[PR_POST_Tag_Insert]
 			                @TagID			int
-			                @TagName		nvarchar(100)
-                            @IsActive       bit = 1
+			                ,@TagName		nvarchar(100)
+                            ,@IsActive       bit = 1
                 AS 
                 BEGIN
                 BEGIN TRY
@@ -50,8 +50,49 @@ namespace Employee_CRUD.Migrations
                 END CATCH
                 END";
 
+            string InsertPostTag = @"
+                CREATE PROCEDURE [dbo].[PR_POST_PostTag_Insert]
+			                @TagID			int
+			                ,@PostID			int
+			                ,@UserID			nvarchar(100)
+                            ,@IsActive       bit = 1
+                AS 
+                BEGIN
+                BEGIN TRY
+                BEGIN TRAN
+                INSERT INTO [dbo].[TBL_PostTags]
+			                (
+			                [dbo].[TBL_PostTags].[TagID]
+			                ,[dbo].[TBL_PostTags].[PostID]
+			                ,[dbo].[TBL_PostTags].[UserID]
+			                ,[dbo].[TBL_PostTags].[IsActive]
+			                )
+	                VALUES
+			                (
+			                @TagID
+			                ,@PostID
+			                ,@UserID
+			                ,@IsActive
+			                )
+                SET @PostTagsID = @@IDENTITY
+                COMMIT TRAN
+                END TRY
+                BEGIN CATCH
+	                SELECT   
+                        ERROR_NUMBER() AS ErrorNumber  
+                        ,ERROR_SEVERITY() AS ErrorSeverity  
+                        ,ERROR_STATE() AS ErrorState  
+                        ,ERROR_PROCEDURE() AS ErrorProcedure  
+                        ,ERROR_LINE() AS ErrorLine  
+                        ,ERROR_MESSAGE() AS ErrorMessage;  
+                    IF(@@TRANCOUNT > 0)
+                        ROLLBACK TRAN;
+                    THROW;  
+                END CATCH
+                END";
+
             string GetTagById = @"
-                    CREATE PROCEDURE [dbo].[PR_GET_Tag_By_User&Post_Id]
+                    CREATE PROCEDURE [dbo].[PR_GET_Tag_By_UserPost_Id]
                         @UserId     nvarchar(100) = NULL,
                         @PostId     int = 0
                     AS
@@ -66,9 +107,13 @@ namespace Employee_CRUD.Migrations
                             WHERE TBL_PostTags.PostID = @PostId AND TBL_PostTags.IsActive = 1
                     END";
 
+
+           
+
             migrationBuilder.Sql(GetTag);
-            migrationBuilder.Sql(GetTagById);
             migrationBuilder.Sql(InsertTag);
+            migrationBuilder.Sql(InsertPostTag);
+            migrationBuilder.Sql(GetTagById);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

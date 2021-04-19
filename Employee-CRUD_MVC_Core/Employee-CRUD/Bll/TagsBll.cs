@@ -6,6 +6,8 @@ using Employee_CRUD.Bll.Interface;
 using Employee_CRUD.Data.Entities;
 using Employee_CRUD.Utils.Interface;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 
 namespace Employee_CRUD.Bll
 {
@@ -28,8 +30,7 @@ namespace Employee_CRUD.Bll
             {
                 using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
-                    //Change SP Name
-                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
+                    using (SqlCommand cmd = new SqlCommand("PR_GET_Tag_By_UserPost_Id", sqlConnection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@UserID", UserID);
@@ -63,8 +64,7 @@ namespace Employee_CRUD.Bll
             {
                 using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
-                    //Change SP Name
-                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
+                    using (SqlCommand cmd = new SqlCommand("PR_GET_Tag", sqlConnection))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         using (var reader = cmd.ExecuteReader())
@@ -100,7 +100,7 @@ namespace Employee_CRUD.Bll
                 using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
                     //Change SP Name
-                    using (SqlCommand cmd = new SqlCommand("PR_EMP_Employee_SelectAll", sqlConnection))
+                    using (SqlCommand cmd = new SqlCommand("PR_GET_Tag_By_UserPost_Id", sqlConnection))
                     {
                         cmd.CommandType = System.Data.CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@PostID", PostID);
@@ -148,8 +148,7 @@ namespace Employee_CRUD.Bll
             {
                 using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
-                    //change SP Name
-                    using (SqlCommand cmd = new SqlCommand("", sqlConnection))
+                    using (SqlCommand cmd = new SqlCommand("PR_POST_Tag_Insert", sqlConnection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@TagName", item);
@@ -167,15 +166,14 @@ namespace Employee_CRUD.Bll
 
                 using (SqlConnection sqlConnection = Utils.Utils.GetConnection(_configuration))
                 {
-                    //change SP Name
-                    using (SqlCommand cmd = new SqlCommand("", sqlConnection))
+                    using (SqlCommand cmd = new SqlCommand("PR_POST_PostTag_Insert", sqlConnection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@TagName", item);
                         cmd.Parameters.AddWithValue("@PostID", postID);
-                        cmd.Parameters.AddWithValue("@TagID", postID);
+                        cmd.Parameters.AddWithValue("@TagID", TagID);
                         cmd.Parameters.AddWithValue("@UserID", UserID);
-                        int PostID = cmd.ExecuteNonQuery();
+                        cmd.ExecuteNonQuery();
                     }
                 }
             }
